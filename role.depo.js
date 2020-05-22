@@ -52,11 +52,11 @@ module.exports = (flagName) => {
                             }
                         }
                         if(creep.memory.dontPullMe) creep.memory.dontPullMe = false
-                        if(flagName=='depo0'||flagName=='depo1'||flagName=='depo2'){
+                        if(flagName=='depo0'||flagName=='depo1'||flagName=='depo2'||flagName=='depo3'||flagName=='depo4'){
                             var Storage = Game.getObjectById('5e92e9fca1606d71a271269f')
                         }
                         else{
-                            var Storage = Game.getObjectById('5eb67df0e96ba8ca7716bb4c')
+                            var Storage = Game.getObjectById('5ec18146726bbf3045e5c02f')
                         }
                         if(Storage){
                             if(creep.store['silicon']>0){
@@ -83,7 +83,7 @@ module.exports = (flagName) => {
                         var Storage = Game.getObjectById('5e92e9fca1606d71a271269f')
                     }
                     else{
-                        var Storage = Game.getObjectById('5eb67df0e96ba8ca7716bb4c')
+                        var Storage = Game.getObjectById('5ec18146726bbf3045e5c02f')
                     }
                     if(Storage){
                         if(creep.store['silicon']>0){

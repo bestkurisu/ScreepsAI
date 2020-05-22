@@ -42,7 +42,8 @@ module.exports = (roomName) => {
                     creep.memory.lablist = undefined
                 } 
                 else{
-                    if(sfrom.store[resource]<20 && sfrom.structureType == STRUCTURE_LAB){
+                    if((sfrom.store[resource]==0 && sfrom.structureType == STRUCTURE_LAB)||
+                    (sfrom.store[resource]<50&&sfrom.structureType != STRUCTURE_LAB)){
                         creep.memory.lablist = undefined
                     }
                     else if(creep.store[resource]>0){

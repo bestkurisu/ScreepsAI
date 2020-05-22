@@ -11,7 +11,6 @@ module.exports = function(roomName0,roomName1){
         return task
     }
     var Storage0 = Game.rooms[roomName0].storage
-    var terminal = Game.rooms[roomName0].terminal
     if(roomName1 == 'W29N4'){
         if(roomName0 == 'W29N4'){
             var resourcecontainer = [Game.getObjectById('5e8199acaffb7347adb866b8'),
@@ -38,7 +37,8 @@ module.exports = function(roomName0,roomName1){
                 }
             }
             if(nuker.store['G']<5000){
-                var task = addlist(Storage0.id,nuker.id,'G',4,1)
+                var terminal=Game.rooms[roomName0].terminal
+                var task = addlist(terminal.id,nuker.id,'G',4,1)
                 translist.push(task)
             }
             if(nuker.store['energy']<300000){
@@ -63,6 +63,16 @@ module.exports = function(roomName0,roomName1){
             }
             if(container[2].store['O'] > 1000){
                 var task = addlist(container[2].id, Storage1.id,'O',2,1)
+                translist.push(task)
+            }
+            var nuker = Game.getObjectById('5ec302595d9bf2e1da803d27')
+            if(nuker.store['G']<5000){
+                var terminal=Game.rooms[roomName1].terminal
+                var task = addlist(terminal.id,nuker.id,'G',4,1)
+                translist.push(task)
+            }
+            if(nuker.store['energy']<300000){
+                var task = addlist(Storage0.id,nuker.id,'energy',4,1)
                 translist.push(task)
             }
         }
@@ -96,28 +106,11 @@ module.exports = function(roomName0,roomName1){
             }
         }
     }
-    else if(roomName1 == 'W28N5'){
-        if(Game.rooms['W28N5'] != undefined){
-            var container = Game.getObjectById(Game.flags['Flag8'].memory.container)
-            if(container && container.store[RESOURCE_ENERGY] > 900){
-                var task = addlist(container.id, Storage0.id,RESOURCE_ENERGY,2,1)
-                translist.push(task)
-            }
-        }
-    }
-    else if(roomName1 == 'W29N7'){
-        if(Game.rooms['W29N7'] != undefined){
-            var container = Game.getObjectById(Game.flags['Flag9'].memory.container)
-            if(container && container.store[RESOURCE_ENERGY] > 900){
-                var task = addlist(container.id, Storage0.id,RESOURCE_ENERGY,2,1)
-                translist.push(task)
-            }
-        }
-    }
     else if(roomName1 == 'W28N6'){
         var container = [Game.getObjectById(Game.flags['Flag12'].memory.container),
-                        Game.getObjectById(Game.flags['Flag13'].memory.container)]
-        var Storage = Game.getObjectById('5ea701a338e95e1f0429712b')
+                        Game.getObjectById(Game.flags['Flag13'].memory.container),
+                        Game.getObjectById('5ec4a859c9853c346c78f438')]
+        var Storage = Game.rooms[roomName1].storage
         if(container[0]&&container[0].store[RESOURCE_ENERGY] > 900){
                 var task = addlist(container[0].id, Storage.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
@@ -126,13 +119,19 @@ module.exports = function(roomName0,roomName1){
             var task = addlist(container[1].id, Storage.id,RESOURCE_ENERGY,2,1)
             translist.push(task)
         }
+        if(container[2]&&container[2].store['U']>800){
+            var task = addlist(container[2].id, Storage.id,'U',2,1)
+            translist.push(task)
+        }
     }
     else if(roomName1 == 'W31S9'){
+        var terminal = Game.rooms[roomName1].terminal
         var container = [Game.getObjectById('5eacaaf10316ee708d685740'),
                         Game.getObjectById('5eacbfee34cf582506609770'),
-                        Game.getObjectById('5eb552a8d88f52210c70e7af')]
+                        Game.getObjectById('5eb552a8d88f52210c70e7af'),
+                        Game.getObjectById('5ec408bbaf68190de2935f7e')]
         if(container[0]&&container[0].store[RESOURCE_ENERGY] > 900){
-                var task = addlist(container[0].id, Storage0.id,RESOURCE_ENERGY,2,1)
+                var task = addlist(container[0].id, terminal.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
         }
         if(container[1]&&container[1].store[RESOURCE_ENERGY] > 900){
@@ -141,6 +140,32 @@ module.exports = function(roomName0,roomName1){
         }
         if(container[2].store['energy']<800&&Storage0.store['energy']>10000){
             var task = addlist(Storage0.id,container[2].id,RESOURCE_ENERGY,1,1)
+            translist.push(task)
+        }
+        if(container[3].store['U']>900){
+            var task = addlist(container[3].id, terminal.id,'U',2,1)
+            translist.push(task)
+        }
+        if(Storage0.store['metal']>0){
+            var task = addlist(Storage0.id,terminal.id,'metal',1,1)
+            translist.push(task)
+        }
+    }
+    else if(roomName1 == 'W29S5'){
+        var storage=Game.rooms[roomName1].storage
+        var container = [Game.getObjectById('5ebc559662ddff832f2f6da9'),
+                        Game.getObjectById('5ebc42b26ae95c3a809c5257'),
+                        Game.getObjectById('5ec148260cd6850b23f7e46b')]
+        if(container[0]&&container[0].store[RESOURCE_ENERGY] > 900){
+            var task = addlist(container[0].id, storage.id,RESOURCE_ENERGY,2,1)
+            translist.push(task)
+        }
+        if(container[1]&&container[1].store[RESOURCE_ENERGY] > 900){
+            var task = addlist(container[1].id, storage.id,RESOURCE_ENERGY,2,1)
+            translist.push(task)
+        }
+        if(container[2].store['energy']<1200){
+            var task = addlist(storage.id,container[2].id,RESOURCE_ENERGY,1,1)
             translist.push(task)
         }
     }

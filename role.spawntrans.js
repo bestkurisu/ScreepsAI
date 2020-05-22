@@ -22,7 +22,7 @@ module.exports = (roomName) => {
             }
             else{
                 if(creep.store.getFreeCapacity()>0){
-                    creep.getEnergy(false,true,false,false)
+                    creep.getEnergy(false,true,false,false,true)
                 }
                 else{
                     if(Memory.rooms[roomName].sparePos){

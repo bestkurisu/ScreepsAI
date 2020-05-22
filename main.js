@@ -5,12 +5,8 @@ require('planner v1.0.1')
 require('RoomVisual')
 
 const stateScanner = function () {
-    // 每 21 tick 运行一次
-    if (Game.time % 21) return 
-    
+    if (Game.time % 19) return 
     if (!Memory.stats) Memory.stats = {}
-    
-    // 统计 GCL / GPL 的升级百分比和等级
     Memory.stats.gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100
     Memory.stats.gclLevel = Game.gcl.level
     Memory.stats.gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100
@@ -60,7 +56,7 @@ const stateScanner = function () {
 module.exports.loop = function () {
     mount()
     market()
-    if(Game.shard.name=='shard3') var startCpu = Game.cpu.getUsed()
+    if(Game.shard.name=='shard3') var startCpu0 = Game.cpu.getUsed()
     for(var name in Memory.creeps){
         if(!Game.creeps[name]){
             delete Memory.creeps[name]
@@ -81,7 +77,7 @@ module.exports.loop = function () {
         var cpu0 = Game.cpu.getUsed()
         Game.rooms[name].work()
         var cpu = Game.cpu.getUsed()-cpu0
-        if(Game.time%10==0){
+        if(Game.time%5==0){
             //console.log(name+' used '+cpu)
         }
     }
@@ -104,7 +100,7 @@ module.exports.loop = function () {
         tower.work()
     }
     if(Game.shard.name=='shard3') stateScanner()
-    if(Game.shard.name=='shard3') var elapsed = Math.round(Game.cpu.getUsed() - startCpu) 
+    if(Game.shard.name=='shard3') var elapsed = Math.round(Game.cpu.getUsed() - startCpu0) 
     new RoomVisual('W29N4').text('bucket:'+Game.cpu.bucket, 5, 1, {color: 'green', font: 0.8})
     new RoomVisual('W29N4').text('cpu:'+elapsed, 5, 2, {color: 'green', font: 0.8})
 }

@@ -64,7 +64,6 @@ module.exports = function(spawn) {
                 role: [10],
                 body: bodyConfigs.harvester.body2,
                 amount: 1,
-                add: '',
                 flag: ['Flag10']
             },
             labman: {
@@ -77,10 +76,10 @@ module.exports = function(spawn) {
             },
             depo: {
                 name: 'depo',
-                role: [0,1,2],
+                role: [0,1,2,3,4],
                 body: bodyConfigs.depo.body0,
                 amount: 1,
-                flag: ['depo0','depo1','depo2']
+                flag: ['depo0','depo1','depo2','depo3','depo4']
             },
             pba: {
                 name: 'pba',
@@ -166,7 +165,6 @@ module.exports = function(spawn) {
                 role: [1],
                 body: bodyConfigs.upgrader.body5,
                 amount: 1,
-                add: '',
             },
             labman: {
                 name: 'labman',
@@ -180,7 +178,7 @@ module.exports = function(spawn) {
                 name: 'transporter',
                 role: [1],
                 body: bodyConfigs.transporter.body2,
-                amount: 2,
+                amount: 1,
             },
         }
     }
@@ -191,13 +189,6 @@ module.exports = function(spawn) {
                 role: [2],
                 body: bodyConfigs.spawntrans.body3,
                 amount: 1,
-                add: '',
-            },
-            upgrader: {
-                name: 'upgrader',
-                role: [2],
-                body: bodyConfigs.upgrader.body3,
-                amount: 4,
                 add: '',
             },
             harvester: {
@@ -243,6 +234,12 @@ module.exports = function(spawn) {
                 amount: 0,
                 room: ['W28N5']
             },
+            upgrader: {
+                name: 'upgrader',
+                role: [2],
+                body: bodyConfigs.upgrader.body5,
+                amount: 1,
+            },
             harvester: {
                 name: 'harvester',
                 role: [15],
@@ -278,7 +275,7 @@ module.exports = function(spawn) {
                 name: 'upgrader',
                 role: [3],
                 body: bodyConfigs.upgrader.body3,
-                amount: 5,
+                amount: 1,
                 add: '',
             },
             harvester: {
@@ -308,6 +305,15 @@ module.exports = function(spawn) {
                 amount: 0,
             },
         }
+        var config1 = {
+            harvester: {
+                name: 'harvester',
+                role: [20],
+                body: bodyConfigs.harvester.body2,
+                amount: 1,
+                flag: ['Flag20']
+            },
+        }
     }
     if(Game.spawns[spawn].pos.roomName == 'W31S9'){
         var config0 = {
@@ -321,8 +327,8 @@ module.exports = function(spawn) {
             upgrader: {
                 name: 'upgrader',
                 role: [4],
-                body: bodyConfigs.upgrader.body1,
-                amount: 3,
+                body: bodyConfigs.upgrader.body2,
+                amount: 4,
                 add: '',
             },
             harvester: {
@@ -339,19 +345,11 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: '',
             },
-            labman: {
-                name: 'labman',
-                role: [4],
-                body: bodyConfigs.labman.body0,
-                amount: 0,
-                add: '',
-            },
             transporter: {
                 name: 'transporter',
                 role: [2],
-                body: bodyConfigs.transporter.body0,
+                body: bodyConfigs.transporter.body1,
                 amount: 2,
-                add: '',
             },
             wallrepairer: {
                 name: 'wallrepairer',
@@ -370,10 +368,17 @@ module.exports = function(spawn) {
         var config1 = {
             depo: {
                 name: 'depo',
-                role: [3,4],
+                role: [5,6],
                 body: bodyConfigs.depo.body1,
                 amount: 1,
-                flag: ['depo3','depo4']
+                flag: ['depo5','depo6']
+            },
+            harvester: {
+                name: 'harvester',
+                role: [19],
+                body: bodyConfigs.harvester.body2,
+                amount: 1,
+                flag: ['Flag19']
             },
         }
     }
@@ -383,26 +388,26 @@ module.exports = function(spawn) {
                 name: 'worker',
                 role: [0,1],
                 body: bodyConfigs.worker.body0,
-                amount: 2,
+                amount: 0,
             },
             spawntrans: {
                 name: 'spawntrans',
                 role: [5],
-                body: bodyConfigs.spawntrans.body0,
-                amount: 0,
+                body: bodyConfigs.spawntrans.body1,
+                amount: 1,
             },
             upgrader: {
                 name: 'upgrader',
                 role: [5],
-                body: bodyConfigs.upgrader.body0,
-                amount: 0,
+                body: bodyConfigs.upgrader.body1,
+                amount: 2,
                 add: '',
             },
             harvester: {
                 name: 'harvester',
                 role: [17,18],
                 body: bodyConfigs.harvester.body1,
-                amount: 0,
+                amount: 1,
                 add: '',
             },
             centertransporter: {
@@ -412,18 +417,11 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: '',
             },
-            labman: {
-                name: 'labman',
-                role: [5],
-                body: bodyConfigs.labman.body0,
-                amount: 0,
-                add: '',
-            },
             transporter: {
                 name: 'transporter',
                 role: [4],
                 body: bodyConfigs.transporter.body0,
-                amount: 0,
+                amount: 2,
                 add: '',
             },
             wallrepairer: {

@@ -4,9 +4,10 @@ var translist = require('transportlist')
 // 定义物流房和管辖房
 const roomTransport = {
     W29N4: ['W29N4'],
-    W29N5: ['W29N5','W28N5'],
-    W29N6: ['W29N6','W29N7','W28N6'],
+    W29N5: ['W29N5'],
+    W29N6: ['W29N6','W28N6'],
     W31S9: ['W31S9'],
+    W29S5: ['W29S5'],
 }
 // 定义主要房间
 const mainRoom = {
@@ -15,6 +16,7 @@ const mainRoom = {
     W29N6: 1,
     W28N6: 3,
     W31S9: 4,
+    W29S5: 5,
 }
 // 定义过道房间
 const guodao = [
@@ -47,7 +49,7 @@ const roomExtension = {
                 }
             }
         }
-        if(Game.time%5 == 0){
+        if(Game.time%7 == 0 && Game.time%10!=0){
             this.findEnemy()
             this.findRepairTarget()
             this.trans()
@@ -190,10 +192,9 @@ const roomExtension = {
         if(this.name == 'W29N4'){
             var lab = [Game.getObjectById('5e91a9054c37b27c44d63871'),
                         Game.getObjectById('5e89e735444aab20c0c59e8f')]
-            if(!this.memory.labstate) this.memory.labstate=0
             if(this.memory.labstate==0&&storage.store['ZO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['ZHO2']>50000) this.memory.labstate=3
+            if(this.memory.labstate==2&&storage.store['ZHO2']>49000) this.memory.labstate=3
             if(this.memory.labstate==3&&storage.store['ZHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='ZO'
@@ -254,7 +255,7 @@ const roomExtension = {
             if(!this.memory.labstate) this.memory.labstate=0
             if(this.memory.labstate==0&&storage.store['UL']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['ZK']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['UL']<1000) this.memory.labstate=0
+            if(this.memory.labstate==2&&(storage.store['UL']<1000 || storage.store['ZK']<1000)) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='UL'
                 var sto = {
@@ -302,9 +303,9 @@ const roomExtension = {
             this.memory.labtask = [sfrom,sto,mid,reaction]
         }
         else if(this.name == 'W29N5'){
-            var x='XKHO2'
+            var x='XGHO2'
             var sto = {
-                0: "KHO2",
+                0: "GHO2",
                 1: "X",
             }
             var sfrom = {
@@ -312,6 +313,10 @@ const roomExtension = {
                 2: x,
                 3: x,
                 5: x,
+                6: x,
+                7: x,
+                8: x,
+                9: x
             }
             var mid = {
 
@@ -321,6 +326,10 @@ const roomExtension = {
                 3: [0,1],
                 4: [0,1],
                 5: [0,1],
+                6: [0,1],
+                7: [0,1],
+                8: [0,1],
+                9: [0,1]
             }
             this.memory.labtask = [sfrom,sto,mid,reaction]
         }
@@ -348,15 +357,24 @@ const roomExtension = {
                     this.terminal.send('G',10000,'W29N5')
                 }
             }
+            else if(this.terminal.store['composite']>1000){
+                if(Game.rooms['W29N4'].storage.store['composite']<5000){
+                    this.terminal.send('composite',1000,'W29N4')
+                }
+            }
         }
         if(this.name == 'W29N4'){
-            /*
-            if(this.terminal.store["XKHO2"]>9999){
-                this.terminal.send("XKHO2",10000,'W21N17')
+            if(this.terminal.store["K"]>15000){
+                this.terminal.send("K",10000,'W29N6')
             }
-            */
         }
         if(this.name == 'W29N5'){
+            if(this.memory.cellstate==undefined){
+                this.memory.cellstate=0
+            }
+            if(this.memory.siliconstate==undefined){
+                this.memory.siliconstate=0
+            }
             var barlist = {
                 W29N4:{
                     keanium_bar:5000,
@@ -392,17 +410,34 @@ const roomExtension = {
             if(this.terminal.store['alloy']>0){
                 this.terminal.send('alloy',this.terminal.store['alloy'],'W29N4')
             }
+            else if(this.terminal.store['O']>40000){
+                this.terminal.send('O',40000,'W29N4')
+            }
+            else if(this.terminal.store['cell']>=1000 && this.memory.cellstate==0){
+                if(this.terminal.send('cell',1000,'W29N6') == 0){
+                    this.memory.cellstate=1
+                }
+            }
+            else if(this.terminal.store['cell']>=100 && this.memory.cellstate==1){
+                if(this.terminal.send('cell',100,'W29N4') == 0){
+                    this.memory.cellstate=0
+                }
+            }
+            else if(this.terminal.store['wire']>=640 && this.memory.siliconstate==0){
+                if(this.terminal.send('wire',640,'W29N6') == 0){
+                    this.memory.siliconstate=1
+                }
+            }
+            else if(this.terminal.store['wire']>=300 && this.memory.siliconstate==1){
+                if(this.terminal.send('wire',300,'W29N4') == 0){
+                    this.memory.siliconstate=0
+                }
+            }
             /*
             else if(this.terminal.store['OH']>5000){
                 this.terminal.send('OH',this.terminal.store['OH'],'W29N4')
             }
             */
-            else if(this.terminal.store['energy']>45000&&Game.rooms['W29N6'].storage.store['energy']<100000){
-                this.terminal.send('energy',40000,'W29N6')
-            }
-            else if(this.terminal.store['energy']>45000&&Game.rooms['W29N4'].storage.store['energy']<150000){
-                this.terminal.send('energy',40000,'W29N4')
-            }
             else{
                 sendBar(this,barlist)
             }
@@ -418,9 +453,6 @@ const roomExtension = {
                 if(factory.store['purifier']>=100&&factory.store["energy"]>200&&factory.store['X']<1000&&storage.store['X']<5000&&terminal.store['X']<5000){
                     factory.produce('X')
                 }
-                else if(factory.store['keanium_bar']>=100&&factory.store['energy']>=200&&factory.store['K']<=1000&&storage.store['K']<=5000&&terminal.store['K']<=5000){
-                    factory.produce('K')
-                }
                 else if(factory.store['zynthium_bar']>=100&&factory.store['energy']>=200&&factory.store['Z']<=1000&&storage.store['Z']<=5000&&storage.store['Z']<=5000){
                     factory.produce('Z')
                 }
@@ -433,14 +465,11 @@ const roomExtension = {
                 else if(factory.store['metal']>=100&&factory.store['zynthium_bar']>=20&&factory.store['energy']>=40){
                     factory.produce('alloy')
                 }
-                else if(factory.store['alloy']>=41&&factory.store['composite']>=20&&factory.store['energy']>=8&&factory.store['oxidant']>=161){
-                    factory.produce('fixtures')
-                }
-                else if(factory.store['biomass']>=100&&factory.store['lemergium_bar']>=20&&factory.store['energy']>40){
-                    factory.produce('cell')
-                }
                 else if(factory.store['cell']>=10&&factory.store['phlegm']>=10&&factory.store['reductant']>=110&&factory.store['energy']>=16){
                     factory.produce('tissue')
+                }
+                else if(factory.store['alloy']>=41&&factory.store['composite']>=20&&factory.store['energy']>=8&&factory.store['oxidant']>=161){
+                    factory.produce('fixtures')
                 }
                 else if(factory.store['utrium_bar']>=20 && factory.store['silicon']>=100){
                     factory.produce('wire')
@@ -470,9 +499,6 @@ const roomExtension = {
                 }
                 else if(factory.store['keanium_bar']>=100&&factory.store['energy']>=200&&factory.store['K']<=1000&&storage.store['K']<=5000){
                     factory.produce('K')
-                }
-                else if(factory.store['reductant']>=100&&factory.store['energy']>=200&&factory.store['H']<=1000&&storage.store['H']<=5000){
-                    factory.produce('H')
                 }
                 else if(factory.store['wire']>=40&&factory.store['oxidant']>=95&&factory.store['utrium_bar']>=35&&factory.store['energy']>20){
                     factory.produce('switch')
@@ -506,8 +532,11 @@ const roomExtension = {
                 else if(factory.store['reductant']>=100&&factory.store['energy']>=200&&factory.store['H']<=1000&&storage.store['H']<=5000){
                     factory.produce('H')
                 }
-                else if(factory.store['oxidant']>=100&&factory.store['energy']>=200&&factory.store['O']<=1000&&storage.store['O']<=5000){
+                else if(factory.store['oxidant']>=100&&factory.store['energy']>=200&&factory.store['O']<=1000&&storage.store['O']+terminal.store['O']<=5000){
                     factory.produce('O')
+                }
+                else if(factory.store['O']>=500&&factory.store['energy']>=200&&storage.store['O']+terminal.store['O']>50000){
+                    factory.produce('oxidant')
                 }
                 else if(factory.store['keanium_bar']>=100&&factory.store['energy']>=200&&factory.store['K']<=1000&&storage.store['K']<=5000){
                     factory.produce('K')
@@ -530,6 +559,8 @@ const roomExtension = {
                 for(i=0;i<depo.length;i++){
                     var f = this.lookForAt(LOOK_FLAGS,depo[i].pos)
                     if(f.length==0){
+                        if(!Game.flags['depo4']) var flag = 'depo4'
+                        if(!Game.flags['depo3']) var flag = 'depo3'
                         if(!Game.flags['depo2']) var flag = 'depo2'
                         if(!Game.flags['depo1']) var flag = 'depo1'
                         if(!Game.flags['depo0']) var flag = 'depo0'

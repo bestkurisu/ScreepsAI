@@ -30,12 +30,16 @@ module.exports = function(roomName){
                     Game.getObjectById('5eb6b4be8897ce8b05da5655')]
     }
     else if(roomName == 'W29N5'){
-        var lab = [Game.getObjectById('5e9edb000053c72b29af5d19'),
-                    Game.getObjectById('5e9f41f9ce6f481d775da89e'),
-                    Game.getObjectById('5e9fb32f271a2fa49d6f27c7'),
+        var lab = [Game.getObjectById('5e9fb32f271a2fa49d6f27c7'),
                     Game.getObjectById('5eacd0dd1dcfd33d1ec57a39'),
+                    Game.getObjectById('5e9edb000053c72b29af5d19'),
+                    Game.getObjectById('5e9f41f9ce6f481d775da89e'),
                     Game.getObjectById('5eacaa324a475284a28f1c57'),
-                    Game.getObjectById('5eac827f42ffeb1cbd055420')]
+                    Game.getObjectById('5eac827f42ffeb1cbd055420'),
+                    Game.getObjectById('5ec31a7eff562dd0dcbc0011'),
+                    Game.getObjectById('5ec334897829da02e52c7a9a'),
+                    Game.getObjectById('5ec352a9111063141d946fb5'),
+                    Game.getObjectById('5ec36f813f49fc5c24094e37')]
     }
     addlist = function(resource,from,to){
         var task = {

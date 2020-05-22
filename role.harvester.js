@@ -4,12 +4,7 @@ module.exports = (flagName) => {
 			if(!creep.pos.isEqualTo(Game.flags[flagName].pos)) creep.moveTo(Game.flags[flagName])
 		},
 		isReady: creep => {
-			if(creep.getActiveBodyparts(WORK)<5){
-				return true
-			}
-			else{
-				if(creep.pos.isEqualTo(Game.flags[flagName].pos)) return true
-			}
+			if(creep.pos.isEqualTo(Game.flags[flagName].pos)) return true
 		},
 		source: creep => {
 			if(!Game.flags[flagName].memory.sourceID){
@@ -28,8 +23,8 @@ module.exports = (flagName) => {
 		target: creep => {
 			if(!creep.memory.dontPullMe) creep.memory.dontPullMe = true
 			if(creep.getActiveBodyparts(WORK)<5){
-				var container = Game.getObjectById(Game.flags[flagName].memory.container)
-				if(container&&container.store.getFreeCapacity()>50) creep.goTransfer(container)
+				var source=Game.getObjectById(Game.flags[flagName].memory.sourceID)
+				creep.harvest(source)
 			}
 			else{
 				// 如果旗子没写矿id则找矿

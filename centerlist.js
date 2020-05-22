@@ -37,33 +37,30 @@ module.exports = function(roomName){
             circuit: 100,
             G: 50000,
             XZHO2: 50000,
+            silicon: 1000,
         }
         var faclist = {
             battery: 5000,
             utrium_bar: 1000,
-            silicon: 5000,
             zynthium_bar: 1000,
             purifier: 1000,
             reductant:1000,
             biomass:5000,
             lemergium_bar:1000,
-            cell: 500,
             reductant: 1000,
             phlegm: 500,
-            cell: 500,
+            cell:500,
             switch: 500,
             composite: 500,
             oxidant: 1000,
             keanium_bar: 1000,
-            wire: 500,
             alloy: 500,
+            wire: 200,
         }
     }
     if(roomName == 'W29N6'){
         var terlist = {
             G: 30000,
-            ZK: 5000,
-            UL: 5000,
             OH: 10000,
             silicon: 10000,
             battery: 10000,
@@ -73,6 +70,7 @@ module.exports = function(roomName){
             composite: 10000,
             KO: 50000,
             KH: 50000,
+            XLH2O: 30000,
         }
         var faclist = {
             utrium_bar: 1000,
@@ -81,18 +79,16 @@ module.exports = function(roomName){
             zynthium_bar: 1000,
             reductant: 1000,
             cell: 1000,
-            wire: 1000,
             lemergium_bar: 1000,
             oxidant: 1000,
             keanium_bar: 1000,
+            wire:500,
         }
     }
     if(roomName == 'W29N5'){
         var terlist = {
             O: 50000,
             OH: 50000,
-            GH: 10000,
-            GO: 10000,
             cell: 20000,
             alloy: 20000,
             reductant: 10000,
@@ -103,12 +99,8 @@ module.exports = function(roomName){
             zynthium_bar: 10000,
             lemergium_bar: 10000,
             ghodium_melt: 10000,
-            KH: 50000,
             wire: 50000,
-            battery: 5000,
-            XUH2O: 10000,
-            XGHO2: 10000,
-            XLHO2: 10000,
+            G: 5000,
         }
         var faclist = {
             lemergium_bar: 1000,
@@ -123,6 +115,7 @@ module.exports = function(roomName){
             silicon: 1000,
             utrium_bar: 1000,
             purifier: 1000,
+            O: 1000,
         }
     }
     if(Terminal){

@@ -59,6 +59,8 @@ module.exports = {
     harvester16: harvester('Flag16'),
     harvester17: harvester('Flag17'),
     harvester18: harvester('Flag18'),
+    harvester19: harvester('Flag19'),
+    harvester20: harvester('Flag20'),
 
     centertransporter0: centertransporter('W29N4'),
     centertransporter1: centertransporter('W29N6'),

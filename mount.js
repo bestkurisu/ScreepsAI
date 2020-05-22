@@ -9,7 +9,7 @@ module.exports = function (){
     if (!global.hasExtension){
         console.log('[mount] 重新挂载拓展')
         global.hasExtension = true;
-        global.WALLHITS = 5000000
+        global.WALLHITS = 15000000
         
         mountCreep()
         mountSpawn()

@@ -2,7 +2,6 @@ module.exports = (name) => {
     return {
         target: creep =>{
             if(name == 'YoRHa-6o'){
-                var factory = Game.getObjectById('5e92351a25a591e9b96737b4')
                 if(Game.time%50 - 1==0){
                     creep.usePower(PWR_GENERATE_OPS)
                 }
@@ -22,12 +21,6 @@ module.exports = (name) => {
                         }
                         else{
                             creep.transferAll(creep.room.storage)
-                        }
-                    }
-                    if(!factory.effects||factory.effects.ticksRemaining<10||factory.effects.length==0){
-                        creep.say('点工厂啦')
-                        if(creep.usePower(PWR_OPERATE_FACTORY,factory)==ERR_NOT_IN_RANGE){
-                            creep.moveTo(factory)
                         }
                     }
                     else if(creep.room.energyAvailable<creep.room.energyCapacityAvailable*0.7){
@@ -114,41 +107,69 @@ module.exports = (name) => {
                     }
                 }
             }
-            else{
+            else if(name == 'YoRHa-8o'){
                 if(Game.time%50 - 1==0){
                     creep.usePower(PWR_GENERATE_OPS)
                 }
                 if(creep.store['ops']<100){
                     var storage = Game.getObjectById('5e843bd5837b7673c3718b8d')
-                    if(creep.withdraw(storage,'ops',300)==ERR_NOT_IN_RANGE){
+                    if(creep.withdraw(storage,'ops',400)==ERR_NOT_IN_RANGE){
                         creep.moveTo(storage)
                     }
                 }
                 else{
-                    if(creep.room.name!='W29N5'){
+                    var factory = Game.getObjectById('5e92351a25a591e9b96737b4')
+                    if(!factory.effects||factory.effects.ticksRemaining<10||factory.effects.length==0){
+                        creep.say('点工厂啦')
+                        if(creep.usePower(PWR_OPERATE_FACTORY,factory)==ERR_NOT_IN_RANGE){
+                            creep.moveTo(factory)
+                        }
+                    }
+                    else if(creep.room.name!='W29N5'){
                         creep.moveTo(new RoomPosition(19,37,'W29N5'))
                     }
                     else{
                         creep.moveInRoom()
                         if(creep.room.energyAvailable<creep.room.energyCapacityAvailable*0.8){
                             if(creep.room.storage.store['energy']>5000){
-                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.storage)){
+                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.storage)==ERR_NOT_IN_RANGE){
                                     creep.moveTo(creep.room.storage)
                                 }
                             }
                             else{
-                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.terminal)){
+                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.terminal)==ERR_NOT_IN_RANGE){
                                     creep.moveTo(creep.room.terminal)
                                 }
                             }
                         }
                         else{
-                            if(creep.store.getFreeCapacity()<50){
-                                if(creep.pos.getRangeTo(creep.room.storage)>1){
+                            if(creep.room.storage.store.getUsedCapacity()>850000){
+                                if(creep.usePower(PWR_OPERATE_STORAGE,creep.room.storage)==ERR_NOT_IN_RANGE){
                                     creep.moveTo(creep.room.storage)
                                 }
-                                else{
-                                    creep.transferAll(creep.room.storage)
+                            }
+                            else{
+                                var lab = creep.room.find(FIND_STRUCTURES,{
+                                    filter: s => s.structureType == STRUCTURE_LAB &&
+                                    (!s.effects || s.effects.length == 0) && s.cooldown>0
+                                })
+                                if(lab.length>0){
+                                    if(creep.powers[PWR_OPERATE_LAB].cooldown==0){
+                                        if(creep.usePower(PWR_OPERATE_LAB,lab[0])==ERR_NOT_IN_RANGE){
+                                            creep.moveTo(lab[0])
+                                        }
+                                    }
+                                    else{
+                                        creep.say('lab等冷却啦')
+                                    }
+                                }
+                                else if(creep.store.getFreeCapacity()<50){
+                                    if(creep.pos.getRangeTo(creep.room.storage)>1){
+                                        creep.moveTo(creep.room.storage)
+                                    }
+                                    else{
+                                        creep.transferAll(creep.room.storage)
+                                    }
                                 }
                             }
                         }

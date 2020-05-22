@@ -5,6 +5,7 @@ const mainRoom = {
     W29N6: 1,
     W31S9: 4,
     W28N6: 3,
+    W29S5: 5,
 }
 module.exports = function () {
     _.assign(Spawn.prototype, spawnExtension)
@@ -79,7 +80,7 @@ const spawnExtension = {
             var spawntrans = _.filter(Game.creeps,(c)=>c.memory.role == 'spawntrans'+mainRoom[this.room.name])
             if(spawntrans.length == 0){
                 this.room.memory.spawnlist = []
-                if(this.room.energyAvailable<this.room.energyCapacityAvailable*0.25){
+                if(this.room.energyAvailable<Math.max(this.room.energyCapacityAvailable*0.25,400)){
                     var count = Math.floor(this.room.energyAvailable/150)
                     var body = []
                     for(i=0;i<count;i++){
