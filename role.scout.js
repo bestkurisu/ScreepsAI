@@ -8,16 +8,15 @@ module.exports = () => {
             return true
         },
 		target: creep => {
-            /*
+            
             var paths = [
-                {shard:'shard3',roomName:'W30N0',x:8,y:17},
-                {shard:'shard2',roomName:'W30N0',x:25,y:9},
-                {shard:'shard1',roomName:'W30N0',x:11,y:35},
-                {shard:'shard0',roomName:'W51N0',x:48,y:20},
-                {shard:'shard0',roomName:'W49N10',x:1,y:27},
-                {shard:'shard0',roomName:'W50S20',x:32,y:45},
-                {shard:'shard1',roomName:'W30S10',x:18,y:31},
-                {shard:'shard2',roomName:'W30S10',x:38,y:25},
+                {shard:'shard3',roomName:'W30S0',x:27,y:9},
+                {shard:'shard2',roomName:'W30S0',x:33,y:24},
+                {shard:'shard1',roomName:'W30S0',x:26,y:7},
+                {shard:'shard0',roomName:'W60S1',x:4,y:1},
+                {shard:'shard0',roomName:'W70S0',x:42,y:28},
+                {shard:'shard1',roomName:'W40N0',x:24,y:39},
+                {shard:'shard2',roomName:'W40N0',x:28,y:31},
             ]
             if(creep.pos.roomName=='W30S10'&&Game.shard.name=='shard3')creep.memory.state=1
             if(creep.memory.state){
@@ -30,7 +29,7 @@ module.exports = () => {
             else{
                 creep.moveTo(fr(creep,paths),{ignoreSwamps: true})
             }
-            */
+            
         }
 	}
 }

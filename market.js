@@ -6,8 +6,17 @@ module.exports=function(){
         var order = Game.market.getAllOrders(order => 
             order.resourceType == RESOURCE_ENERGY && order.type == ORDER_BUY)
         order.sort((a,b)=>b.price-a.price)
-        var price = Math.min(0.115,order[0].price)
+        var price = Math.min(0.085,order[0].price)
         var deal=false
+        if(_.size(Game.market.orders)>250){
+            for(o in Game.market.orders){
+                var order = Game.market.getOrderById(o)
+                if(!order.active){
+                    console.log(Game.market.cancelOrder(o))
+                    
+                }
+            }
+        }
         for(let i=0;i<roomName.length;i++){
             if(Game.rooms[roomName[i]].storage.store['energy']<350000){
                 var order = Game.market.getAllOrders(order => order.resourceType == RESOURCE_ENERGY &&
@@ -50,7 +59,7 @@ module.exports=function(){
                 order.type == ORDER_BUY)
             if(order.length>0){
                 order.sort((a,b) => b.price-a.price)
-                if(order[0].price>4.5){
+                if(order[0].price>5){
                     Game.market.deal(order[0].id,Math.min(order[0].amount,Game.rooms['W29N6'].terminal.store['composite']),'W29N6')
                 }
             }
@@ -121,15 +130,15 @@ module.exports=function(){
                 }
             }
         }
-        if(Game.rooms['W29N5'].storage.store['battery']<50000){
+        if(Game.rooms['W29N5'].storage.store['battery']<30000){
             var myOrder = _.filter(Game.market.orders, o => o.type=="buy" && o.resourceType=='battery' &&
             o.active==true)
             var order = Game.market.getAllOrders(order => 
             order.resourceType == 'battery' && order.type == ORDER_BUY)
             order.sort((a,b)=>b.price-a.price)
-            var price = Math.min(0.9,order[0].price)
+            var price = Math.min(1.5,order[0].price)
             if(myOrder.length>0){
-                var amount = 50000-Game.rooms['W29N5'].storage.store['energy']-myOrder[0].remainingAmount
+                var amount = 60000-Game.rooms['W29N5'].storage.store['energy']-myOrder[0].remainingAmount
                 if(amount>0){
                     Game.market.extendOrder(myOrder[0].id,amount)
                     console.log('W29N5挂了'+amount+'电池')
@@ -139,11 +148,18 @@ module.exports=function(){
                 }
             }
             else{
-                var amount = 50000-Game.rooms['W29N5'].storage.store['battery']
+                var amount = 60000-Game.rooms['W29N5'].storage.store['battery']
                 buy('battery',price,amount,'W29N5')
                 console.log('W29N5挂了'+amount+'电池')
             }
         }
-        
+        if(Game.rooms['W29N4'].terminal.store['fixtures']>10){
+            var order = Game.market.getAllOrders(order => 
+                order.resourceType == 'fixtures' && order.type == ORDER_BUY && order.amount>0)
+            order.sort((a,b)=>b.price-a.price)
+            if(order.length>0 && order[0].price>4800){
+                Game.market.deal(order[0].id,order[0].amount,'W29N4')
+            }
+        }
     }
 }

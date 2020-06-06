@@ -20,6 +20,7 @@ const healer = require('role.healer')
 const pc = require('powercreep')
 const longbuilder = require('role.longbuilder')
 const worker = require('role.worker')
+const lorry = require('role.lorry')
 
 // creep角色配置文件
 module.exports = {
@@ -110,6 +111,8 @@ module.exports = {
     depo2: depo('depo2'),
     depo3: depo('depo3'),
     depo4: depo('depo4'),
+    depo5: depo('depo5'),
+    depo6: depo('depo6'),
 
     pba0: pba('pb0'),
     pbb0: pbb('pb0'),
@@ -121,8 +124,10 @@ module.exports = {
 
     scout0: scout(),
     longbuilder: longbuilder(),
+    lorry0: lorry('flag'),
 
     'YoRHa-6o': pc('YoRHa-6o'),
     'YoRHa-4o': pc('YoRHa-4o'),
     'YoRHa-8o': pc('YoRHa-8o'),
+    'YoRHa-7o': pc('YoRHa-7o'),
 };

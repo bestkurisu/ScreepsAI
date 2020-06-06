@@ -47,7 +47,7 @@ module.exports = (flagName) => {
                     else{
                         if(depo){
                             Game.flags[flagName].memory.lastCooldown = depo.lastCooldown
-                            if(depo.lastCooldown>90){
+                            if(depo.lastCooldown>150){
                                 Game.flags[flagName].remove()
                             }
                         }

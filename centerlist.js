@@ -1,5 +1,4 @@
 // 需要从memory读取link和factory
-
 module.exports = function(roomName){
     var centerlist = []
     const Storage = Game.rooms[roomName].storage
@@ -35,8 +34,7 @@ module.exports = function(roomName){
             crystal: 10000,
             device: 100,
             circuit: 100,
-            G: 50000,
-            XZHO2: 50000,
+            XGHO2: 50000,
             silicon: 1000,
         }
         var faclist = {
@@ -68,9 +66,6 @@ module.exports = function(roomName){
             microchip: 50,
             switch: 10000,
             composite: 10000,
-            KO: 50000,
-            KH: 50000,
-            XLH2O: 30000,
         }
         var faclist = {
             utrium_bar: 1000,
@@ -83,12 +78,14 @@ module.exports = function(roomName){
             oxidant: 1000,
             keanium_bar: 1000,
             wire:500,
+            L:1000,
+            K:1000,
         }
     }
     if(roomName == 'W29N5'){
         var terlist = {
             O: 50000,
-            OH: 50000,
+            ops: 50000,
             cell: 20000,
             alloy: 20000,
             reductant: 10000,
@@ -101,6 +98,11 @@ module.exports = function(roomName){
             ghodium_melt: 10000,
             wire: 50000,
             G: 5000,
+            XZHO2:50000,
+            XKHO2:50000,
+            XGHO2:50000,
+            XLH2O:50000,
+            XUH2O:50000,
         }
         var faclist = {
             lemergium_bar: 1000,
@@ -116,6 +118,7 @@ module.exports = function(roomName){
             utrium_bar: 1000,
             purifier: 1000,
             O: 1000,
+            U: 1000,
         }
     }
     if(Terminal){

@@ -59,14 +59,17 @@ module.exports = (roomName) => {
                         }
                     }
                     // storage到storage
-                    else if((creep.memory.translist.complete == 3) && creep.store[creep.memory.translist.resource] == 0){
-                        if(sfrom.store[creep.memory.translist.resource] < 5000){
+                    else if(creep.memory.translist.complete == 3){
+                        if(sfrom.store[creep.memory.translist.resource] < 5000||
+                            sto.store[creep.memory.translist.resource]>50000){
                             creep.memory.translist = undefined
                         }
                     }
                     else if(creep.memory.translist.complete == 4){
-                        if(sto.store.getFreeCapacity(creep.memory.translist.resource) == 0 ||
-                            sfrom.store[creep.memory.translist.resource]==0){
+                        if(sto.store.getFreeCapacity(creep.memory.translist.resource) == 0){
+                            creep.memory.translist = undefined
+                        }
+                        else if(sfrom.store[creep.memory.translist.resource]<20000){
                             if(creep.store[creep.memory.translist.resource]>0){
                                 creep.goTransfer(sfrom,creep.memory.translist.resource)
                             }

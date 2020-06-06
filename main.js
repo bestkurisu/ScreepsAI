@@ -3,7 +3,10 @@ const market = require('market')
 require('超级移动优化v0.9.4')
 require('planner v1.0.1')
 require('RoomVisual')
-
+require('极致建筑缓存');
+for(let room in Game.rooms){
+    Game.rooms[room].update();  // 在第一次见到某房间或某房间中出现新建筑时调用room.update()函数更新缓存
+}
 const stateScanner = function () {
     if (Game.time % 19) return 
     if (!Memory.stats) Memory.stats = {}
@@ -56,6 +59,7 @@ const stateScanner = function () {
 module.exports.loop = function () {
     mount()
     market()
+
     if(Game.shard.name=='shard3') var startCpu0 = Game.cpu.getUsed()
     for(var name in Memory.creeps){
         if(!Game.creeps[name]){
@@ -74,30 +78,55 @@ module.exports.loop = function () {
     }
     
     for(var name in Game.rooms){
-        var cpu0 = Game.cpu.getUsed()
-        Game.rooms[name].work()
-        var cpu = Game.cpu.getUsed()-cpu0
-        if(Game.time%5==0){
-            //console.log(name+' used '+cpu)
+        try{
+            var cpu0 = Game.cpu.getUsed()
+            Game.rooms[name].work()
+            var cpu = Game.cpu.getUsed()-cpu0
+            if(Game.time%5==0){
+                //console.log(name+' used '+cpu)
+            }
+        }
+        catch(e){
+            console.log(e.stack)
         }
     }
     for(var name in Game.creeps){
-        var cpu0 = Game.cpu.getUsed()
-        Game.creeps[name].work()
-        var cpu = Game.cpu.getUsed()-cpu0
-        if(Game.time%10==0){
-            //console.log(Memory.creeps[name].role+' used '+cpu)
+        try{
+            var cpu0 = Game.cpu.getUsed()
+            Game.creeps[name].work()
+            var cpu = Game.cpu.getUsed()-cpu0
+            if(Game.time%10==0){
+                //console.log(Memory.creeps[name].role+' used '+cpu)
+            }
+        }
+        catch(e){
+            console.log(e.stack)
         }
     }
     for(var name in Game.powerCreeps){
-        Game.powerCreeps[name].work()
+        try{
+            Game.powerCreeps[name].work()
+        }
+        catch(e){
+            console.log(e.stack)
+        }
     }
     for(var name in Game.spawns){
-        Game.spawns[name].work()
+        try{
+            Game.spawns[name].work()
+        }
+        catch(e){
+            console.log(e.stack)
+        }
     }
     var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
     for(let tower of towers){
-        tower.work()
+        try{
+            tower.work()
+        }
+        catch{
+            console.log(e.stack)
+        }
     }
     if(Game.shard.name=='shard3') stateScanner()
     if(Game.shard.name=='shard3') var elapsed = Math.round(Game.cpu.getUsed() - startCpu0) 

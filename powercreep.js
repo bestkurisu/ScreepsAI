@@ -89,18 +89,34 @@ module.exports = (name) => {
                         }
                     }
                     else{
-                        if(!creep.pos.isEqualTo(new RoomPosition(26,35,'W29N6'))){
-                            creep.moveTo(new RoomPosition(26,35,'W29N6'))
-                        }
-                        if(creep.room.energyAvailable<creep.room.energyCapacityAvailable*0.8){
-                            if(creep.room.storage.store['energy']>5000){
-                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.storage)){
-                                    creep.moveTo(creep.room.storage)
+                        var lab = creep.room.find(FIND_STRUCTURES,{
+                            filter: s => s.structureType == STRUCTURE_LAB &&
+                            (!s.effects || s.effects.length == 0) && s.cooldown>0
+                        })
+                        if(lab.length>0){
+                            if(creep.powers[PWR_OPERATE_LAB].cooldown==0){
+                                if(creep.usePower(PWR_OPERATE_LAB,lab[0])==ERR_NOT_IN_RANGE){
+                                    creep.moveTo(lab[0])
                                 }
                             }
                             else{
-                                if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.terminal)){
-                                    creep.moveTo(creep.room.terminal)
+                                creep.say('lab等冷却啦')
+                            }
+                        }
+                        else{
+                            if(!creep.pos.isEqualTo(new RoomPosition(26,35,'W29N6'))){
+                                creep.moveTo(new RoomPosition(26,35,'W29N6'))
+                            }
+                            if(creep.room.energyAvailable<creep.room.energyCapacityAvailable*0.8){
+                                if(creep.room.storage.store['energy']>5000){
+                                    if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.storage)){
+                                        creep.moveTo(creep.room.storage)
+                                    }
+                                }
+                                else{
+                                    if(creep.usePower(PWR_OPERATE_EXTENSION,creep.room.terminal)){
+                                        creep.moveTo(creep.room.terminal)
+                                    }
                                 }
                             }
                         }
@@ -174,6 +190,22 @@ module.exports = (name) => {
                             }
                         }
                     }
+                }
+            }
+            else if(name == 'YoRHa-7o'){
+                if(Game.time%50 - 1==0){
+                    creep.usePower(PWR_GENERATE_OPS)
+                }
+                if(creep.store.getFreeCapacity()<50){
+                    if(creep.pos.getRangeTo(creep.room.storage)>1){
+                        creep.moveTo(creep.room.storage)
+                    }
+                    else{
+                        creep.transferAll(creep.room.storage)
+                    }
+                }
+                else if(!creep.pos.isEqualTo(33,8)){
+                    creep.moveTo(33,8)
                 }
             }
         },

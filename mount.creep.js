@@ -1,3 +1,4 @@
+
 const creepConfigs = require('config.role')
 // 挂载Creep原型扩展
 module.exports = function () {

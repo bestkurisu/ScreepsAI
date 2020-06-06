@@ -128,6 +128,12 @@ module.exports = function(roomName){
                             }
                             lab[num].runReaction(lab[reaction[key][0]],lab[reaction[key][1]])
                         }
+                        if(Game.time%1000==0){
+                            if(lab[num].mineralType){
+                                var task = addlist(lab[num].mineralType,lab[num],Terminal)
+                                lablist.push(task)
+                            }
+                        }
                     }
                 }
                 

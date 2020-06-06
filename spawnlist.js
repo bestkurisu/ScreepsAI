@@ -10,6 +10,7 @@ var setMemory = function(creep){
 }
 var setTask = function(creep,i){
     if(!creep.directions) creep.directions = TOP
+    if(!creep.memory[i]) creep.memory[i]={}
     var task = {
         body: creep.body,
         name: creep.name,
@@ -47,7 +48,7 @@ module.exports = function(spawn) {
                 name: 'wallrepairer',
                 role: [0],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 1,
+                amount: 0,
                 add: ''
             },
         }
@@ -141,15 +142,9 @@ module.exports = function(spawn) {
                 name: 'wallrepairer',
                 role: [1],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 1,
+                amount: 0,
                 add: ''
             },
-            builder: {
-                name: 'builder',
-                role: [3],
-                body: bodyConfigs.builder.body2,
-                amount: 0,
-            }
         }
         var config1 = {
             harvester: {
@@ -157,7 +152,6 @@ module.exports = function(spawn) {
                 role: [11],
                 body: bodyConfigs.harvester.body2,
                 amount: 1,
-                add: '',
                 flag: ['Flag11']
             },
             upgrader: {
@@ -205,18 +199,11 @@ module.exports = function(spawn) {
                 amount: 1,
                 add: '',
             },
-            labman: {
-                name: 'labman',
-                role: [],
-                body: bodyConfigs.labman.body0,
-                amount: 0,
-                add: '',
-            },
             wallrepairer: {
                 name: 'wallrepairer',
                 role: [2],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 1,
+                amount: 0,
                 add: ''
             },
             builder: {
@@ -276,7 +263,6 @@ module.exports = function(spawn) {
                 role: [3],
                 body: bodyConfigs.upgrader.body3,
                 amount: 1,
-                add: '',
             },
             harvester: {
                 name: 'harvester',
@@ -320,15 +306,15 @@ module.exports = function(spawn) {
             spawntrans: {
                 name: 'spawntrans',
                 role: [4],
-                body: bodyConfigs.spawntrans.body0,
+                body: bodyConfigs.spawntrans.body1,
                 amount: 1,
                 add: '',
             },
             upgrader: {
                 name: 'upgrader',
                 role: [4],
-                body: bodyConfigs.upgrader.body2,
-                amount: 4,
+                body: bodyConfigs.upgrader.body3,
+                amount: 1,
                 add: '',
             },
             harvester: {
@@ -349,7 +335,7 @@ module.exports = function(spawn) {
                 name: 'transporter',
                 role: [2],
                 body: bodyConfigs.transporter.body1,
-                amount: 2,
+                amount: 1,
             },
             wallrepairer: {
                 name: 'wallrepairer',
@@ -380,6 +366,13 @@ module.exports = function(spawn) {
                 amount: 1,
                 flag: ['Flag19']
             },
+            lorry: {
+                name: 'lorry',
+                role: [0],
+                body: [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],
+                amount: 1,
+                flag: ['flag']
+            }
         }
     }
     if(Game.spawns[spawn].pos.roomName == 'W29S5'){
@@ -399,14 +392,14 @@ module.exports = function(spawn) {
             upgrader: {
                 name: 'upgrader',
                 role: [5],
-                body: bodyConfigs.upgrader.body1,
+                body: bodyConfigs.upgrader.body2,
                 amount: 2,
                 add: '',
             },
             harvester: {
                 name: 'harvester',
                 role: [17,18],
-                body: bodyConfigs.harvester.body1,
+                body: bodyConfigs.harvester.body2,
                 amount: 1,
                 add: '',
             },
@@ -420,7 +413,7 @@ module.exports = function(spawn) {
             transporter: {
                 name: 'transporter',
                 role: [4],
-                body: bodyConfigs.transporter.body0,
+                body: bodyConfigs.transporter.body1,
                 amount: 2,
                 add: '',
             },
@@ -436,6 +429,15 @@ module.exports = function(spawn) {
                 role: [5],
                 body: bodyConfigs.builder.body0,
                 amount: 0,
+            },
+        }
+        var config1 = {
+            harvester: {
+                name: 'harvester',
+                role: [6],
+                body: bodyConfigs.harvester.body2,
+                amount: 1,
+                flag: ['Flag6']
             },
         }
     }
@@ -538,6 +540,12 @@ module.exports = function(spawn) {
                     }
                     else if(cc.name == 'transporter'){
                         if(creepRole.length<cc.amount && Game.spawns[spawn].room.memory.translist.length>0){
+                            var task = setTask(cc,i)
+                            spawnlist.push(task)
+                        }
+                    }
+                    else if(cc.name == 'lorry'){
+                        if(creepRole.length<cc.amount && Game.flags['flag']){
                             var task = setTask(cc,i)
                             spawnlist.push(task)
                         }

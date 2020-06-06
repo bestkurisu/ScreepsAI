@@ -49,7 +49,16 @@ module.exports = (roomName) => {
                 creep.upgradeController(creep.room.controller)
             }
             else{
-                creep.getEnergy(false,true,false,true,true)
+                let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: s => (s.structureType == STRUCTURE_CONTAINER || 
+                                s.structureType == STRUCTURE_STORAGE) &&
+                                s.store[RESOURCE_ENERGY] > creep.store.getCapacity() 
+                });
+                if (container){
+                    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(container);
+                    }
+                }
             }
         },
         target: creep => {
