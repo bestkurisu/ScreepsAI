@@ -3,7 +3,7 @@ module.exports = function(roomName){
     var centerlist = []
     const Storage = Game.rooms[roomName].storage
     const Terminal = Game.rooms[roomName].terminal
-    const Factory = Game.getObjectById(Game.rooms[roomName].memory.factory)
+    const Factory = Game.rooms[roomName].factory
     const ps = Game.getObjectById(Game.rooms[roomName].memory.powerspawn)
     addlist = function(resource,from,to,amount,count=0){
         var task = {
@@ -35,7 +35,11 @@ module.exports = function(roomName){
             device: 100,
             circuit: 100,
             XGHO2: 50000,
-            silicon: 1000,
+            power: 10000,
+            ops: 5000,
+            condensate: 10000,
+            wire:10000,
+            essence:10,
         }
         var faclist = {
             battery: 5000,
@@ -59,13 +63,14 @@ module.exports = function(roomName){
     if(roomName == 'W29N6'){
         var terlist = {
             G: 30000,
-            OH: 10000,
             silicon: 10000,
             battery: 10000,
             phlegm: 10000,
             microchip: 50,
             switch: 10000,
             composite: 10000,
+            ops:5000,
+            spirit:100,
         }
         var faclist = {
             utrium_bar: 1000,
@@ -73,6 +78,7 @@ module.exports = function(roomName){
             battery: 1000,
             zynthium_bar: 1000,
             reductant: 1000,
+            purifier: 1000,
             cell: 1000,
             lemergium_bar: 1000,
             oxidant: 1000,
@@ -80,12 +86,14 @@ module.exports = function(roomName){
             wire:500,
             L:1000,
             K:1000,
+            concentrate:100,
+            extract:100
         }
     }
     if(roomName == 'W29N5'){
         var terlist = {
             O: 50000,
-            ops: 50000,
+            ops: 5000,
             cell: 20000,
             alloy: 20000,
             reductant: 10000,
@@ -97,12 +105,12 @@ module.exports = function(roomName){
             lemergium_bar: 10000,
             ghodium_melt: 10000,
             wire: 50000,
-            G: 5000,
-            XZHO2:50000,
-            XKHO2:50000,
+            XZHO2:10000,
+            XKHO2:10000,
             XGHO2:50000,
-            XLH2O:50000,
-            XUH2O:50000,
+            XLHO2:50000,
+            XUH2O:10000,
+            extract:1000,
         }
         var faclist = {
             lemergium_bar: 1000,
@@ -119,6 +127,28 @@ module.exports = function(roomName){
             purifier: 1000,
             O: 1000,
             U: 1000,
+            condensate:1000,
+            concentrate:100
+        }
+    }
+    if(roomName == 'W28N6'){
+        var terlist = {
+            U:50000,
+            ops:5000,
+            concentrate:1000,
+        }
+        var faclist = {
+            lemergium_bar: 1000,
+            biomass:2000,
+            zynthium_bar: 1000,
+            metal: 2000,
+            oxidant: 1000,
+            reductant: 1000,
+            keanium_bar: 1000,
+            silicon: 1000,
+            utrium_bar: 1000,
+            purifier: 1000,
+            condensate:1000,
         }
     }
     if(Terminal){
@@ -155,7 +185,7 @@ module.exports = function(roomName){
             centerlist.push(task)
         }
     }
-    if(faclist){
+    if(faclist && Factory){
         for(key in Factory.store){
             if(key in faclist){
                 if(Factory.store[key]<faclist[key]){

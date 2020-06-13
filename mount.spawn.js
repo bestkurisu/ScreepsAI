@@ -73,6 +73,15 @@ const spawnExtension = {
                 }
             } 
         }
+        if(this.name == 'Spawn7' && !this.spawning){
+            var found = this.room.lookForAt(LOOK_CREEPS,9,19)
+            if(found.length>0){
+                var centercreep = found[0]
+                if(centercreep.ticksToLive<1300){
+                    this.renewCreep(centercreep)
+                }
+            } 
+        }
     },
     // 重启
     restart: function(){

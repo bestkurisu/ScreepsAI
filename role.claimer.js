@@ -13,9 +13,6 @@ module.exports = (workRoom) => {
             } 
 		},
 		target: creep => {
-            if(creep.pos.roomName =='W28N6'){
-                creep.claimController(creep.room.controller)
-            }
             if(!creep.memory.claim) {
                 if(creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(creep.room.controller)

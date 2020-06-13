@@ -22,7 +22,15 @@ const mainRoom = {
 const guodao = [
     'W30N3','W30N4','W30N5','W30N6','W30N7','W30N8',
 ]
-
+StructureFactory.prototype.pro=function(c){
+    com=COMMODITIES[c].components
+    for(key in com){ 
+        if(this.store[key]<com[key]){
+            return -1
+        }
+    }
+    return this.produce(c)
+}
 module.exports = function () {
     _.assign(Room.prototype, roomExtension)
 }
@@ -197,7 +205,7 @@ const roomExtension = {
             if(this.memory.labstate==0&&storage.store['GO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
             if(this.memory.labstate==2&&storage.store['GHO2']>49000) this.memory.labstate=3
-            if(this.memory.labstate==3&&storage.store['GHO2']<1000) this.memory.labstate=0
+            //if(this.memory.labstate==3&&storage.store['GHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='GO'
                 var sto = {
@@ -257,7 +265,7 @@ const roomExtension = {
             if(this.memory.labstate==0&&storage.store['KO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
             if(this.memory.labstate==2&&storage.store['KHO2']>49000) this.memory.labstate=3
-            if(this.memory.labstate==3&&storage.store['KHO2']<1000) this.memory.labstate=0
+            //if(this.memory.labstate==3&&storage.store['KHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='KO'
                 var sto = {
@@ -316,7 +324,7 @@ const roomExtension = {
             if(this.memory.labstate==0&&storage.store['LO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
             if(this.memory.labstate==2&&storage.store['LHO2']>49000) this.memory.labstate=3
-            if(this.memory.labstate==3&&storage.store['LHO2']<1000) this.memory.labstate=0
+            //if(this.memory.labstate==3&&storage.store['LHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='LO'
                 var sto = {
@@ -377,9 +385,6 @@ const roomExtension = {
             if(this.terminal.store["battery"]>5000){
                 this.terminal.send("battery",this.terminal.store['battery'],'W29N4')
             }
-            else if(this.terminal.store['OH']>1000){
-                this.terminal.send('OH',this.terminal.store['OH'],'W29N4')
-            }
             else if(this.terminal.store['phlegm']>0){
                 this.terminal.send('phlegm',this.terminal.store['phlegm'],'W29N4')
             }
@@ -394,15 +399,13 @@ const roomExtension = {
                     this.terminal.send('G',10000,'W29N5')
                 }
             }
-            else if(this.terminal.store['composite']>1000){
-                if(Game.rooms['W29N4'].storage.store['composite']<5000){
-                    this.terminal.send('composite',1000,'W29N4')
-                }
+            else if(this.terminal.store['spirit']>0){
+                this.terminal.send('spirit',1,'E41N49')
             }
         }
         if(this.name == 'W29N4'){
-            if(this.terminal.store["K"]>15000){
-                this.terminal.send("K",10000,'W29N6')
+            if(this.terminal.store["power"]>5000 && Game.rooms['W29N5'].storage.store['power']<this.storage.store['power']){
+                this.terminal.send("power",this.terminal.store['power'],'W29N5')
             }
         }
         if(this.name == 'W29N5'){
@@ -429,6 +432,16 @@ const roomExtension = {
                     lemergium_bar:5000,
                     reductant:5000,
                     oxidant:5000,
+                    purifier:5000,
+                },
+                W28N6:{
+                    keanium_bar:5000,
+                    utrium_bar:5000,
+                    zynthium_bar:5000,
+                    lemergium_bar:5000,
+                    reductant:5000,
+                    oxidant:5000,
+                    purifier:5000,
                 }
             }
             var sendBar = function(roomObject,barlist){
@@ -447,6 +460,9 @@ const roomExtension = {
             if(this.terminal.store['alloy']>0){
                 this.terminal.send('alloy',this.terminal.store['alloy'],'W29N4')
             }
+            else if(this.terminal.store['extract']>0){
+                this.terminal.send('extract',this.terminal.store['extract'],'W29N6')
+            }
             else if(this.terminal.store['O']>40000){
                 if(Game.rooms['W29N4'].terminal.store['O']<30000){
                     this.terminal.send('O',30000,'W29N4')
@@ -455,51 +471,58 @@ const roomExtension = {
                     this.terminal.send('O',30000,'W29N6')
                 }
             }
-            else if(this.terminal.store['cell']>=1000 && this.memory.cellstate==0){
-                if(this.terminal.send('cell',1000,'W29N6') == 0){
-                    this.memory.cellstate=1
-                }
-            }
-            else if(this.terminal.store['cell']>=100 && this.memory.cellstate==1){
-                if(this.terminal.send('cell',100,'W29N4') == 0){
-                    this.memory.cellstate=0
-                }
-            }
-            else if(this.terminal.store['wire']>=640 && this.memory.siliconstate==0){
-                if(this.terminal.send('wire',640,'W29N6') == 0){
-                    this.memory.siliconstate=1
-                }
-            }
-            else if(this.terminal.store['wire']>=300 && this.memory.siliconstate==1){
-                if(this.terminal.send('wire',300,'W29N4') == 0){
-                    this.memory.siliconstate=0
-                }
-            }
-            else if(this.terminal.store['energy']>45000 && Game.rooms['W29N6'].terminal.store['energy']<20000){
-                this.terminal.send('energy',40000,'W29N6')
-            }
-            /*
-            else if(this.terminal.store['OH']>5000){
-                this.terminal.send('OH',this.terminal.store['OH'],'W29N4')
-            }
-            */
             else{
                 sendBar(this,barlist)
             }
         }
+        if(this.name=='W28N6'){
+            if(!this.memory.miststate) this.memory.miststate=0
+            if(this.terminal.store['concentrate']>=6){
+                if(this.memory.miststate==0){
+                    if(this.terminal.send('concentrate',10,'W29N5')==0){
+                        this.memory.miststate=1
+                    }
+                    
+                }
+                else if(this.memory.miststate==1){
+                    if(this.terminal.send('concentrate',6,'W29N6')==0){
+                        this.memory.miststate=0
+                    }
+                    
+                }
+            }
+        }
         if(this.name=='W31S9'){
-            if(this.terminal.store['metal']>0){
-                this.terminal.send('metal',this.terminal.store['metal'],'W29N5')
+            if(this.terminal.store['metal']>1000){
+                //this.terminal.send('metal',this.terminal.store['metal'],'W29N5')
+            }
+            else if(this.terminal.store['K']>10000){
+                this.terminal.send('K',this.terminal.store['K'],'W29N6')
+            }
+            else if(this.terminal.store['U']>10000){
+                this.terminal.send('U',this.terminal.store['U'],'W29N5')
             }
         }
     },
     // 工厂生产
     produce: function(){
-        var factory = Game.getObjectById(this.memory.factory)
+        var factory = this.factory
         var storage = this.storage
         var terminal = this.terminal
+        if(this.name=='W29N4'){
+            var comlist=['hydraulics','organoid','circuit','emanation','wire','cell','alloy','condensate']
+        }
+        if(this.name=='W29N5'){
+            var comlist=['fixtures','tissue','transistor','extract','wire','cell','alloy','condensate']
+        }
+        if(this.name=='W29N6'){
+            var comlist=['frame','muscle','microchip','spirit','wire','cell','alloy','condensate']
+        }
+        if(this.name=='W28N6'){
+            var comlist=['tube','phlegm','switch','concentrate','wire','cell','alloy','condensate']
+        }
         if(this.name == 'W29N4'){
-            if(factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
+            if(factory && factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
                 if(factory.store['purifier']>=100&&factory.store["energy"]>200&&factory.store['X']<1000&&storage.store['X']<5000&&terminal.store['X']<5000){
                     factory.produce('X')
                 }
@@ -515,29 +538,27 @@ const roomExtension = {
                 else if(factory.store['metal']>=100&&factory.store['zynthium_bar']>=20&&factory.store['energy']>=40){
                     factory.produce('alloy')
                 }
-                else if(factory.store['cell']>=10&&factory.store['phlegm']>=10&&factory.store['reductant']>=110&&factory.store['energy']>=16){
-                    factory.produce('tissue')
-                }
-                else if(factory.store['alloy']>=41&&factory.store['composite']>=20&&factory.store['energy']>=8&&factory.store['oxidant']>=161){
-                    factory.produce('fixtures')
-                }
                 else if(factory.store['utrium_bar']>=20 && factory.store['silicon']>=100){
                     factory.produce('wire')
-                }
-                else if(factory.store['switch']>=4&&factory.store['wire']>=15&&factory.store['reductant']>=85&&factory.store['energy']>=8){
-                    factory.produce('transistor')
-                }
-                else if(factory.store['keanium_bar']>=6&&factory.store['purifier']>=6&&factory.store['lemergium_bar']>=6&&factory.store['energy']>=45){
-                    factory.produce('crystal')
                 }
                 else if((factory.store["battery"]>=50 && storage.store.getFreeCapacity()>100000&&factory.store.getFreeCapacity()>5000)||
                     factory.store['energy'<5000]){
                     factory.produce(RESOURCE_ENERGY)
                 }
+                else{
+                    for(key of comlist){
+                        if(factory.pro(key) !== 0){
+                            continue
+                        }
+                        else{
+                            break
+                        }
+                    }
+                }
             }
         }
         else if(this.name == 'W29N6'){
-            if(factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
+            if(factory&&factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
                 if(factory.store['lemergium_bar']>=100&&factory.store['energy']>=200&&factory.store['L']<=1000&&storage.store['L']<=5000&&terminal.store['L']<=5000){
                     factory.produce('L')
                 }
@@ -565,39 +586,27 @@ const roomExtension = {
                 else if(storage.store['K']>50000 && factory.store['K']>=500 && factory.store['energy']>200){
                     factory.produce('keanium_bar')
                 }
-                else if(factory.store['wire']>=40&&factory.store['oxidant']>=95&&factory.store['utrium_bar']>=35&&factory.store['energy']>20){
-                    factory.produce('switch')
-                }
-                else if(factory.store['cell']>=20&&factory.store['oxidant']>=36&&factory.store['lemergium_bar']>=16&&factory.store['energy']>8){
-                    factory.produce('phlegm')
-                }
-                else if(factory.store['utrium_bar']>=20&&factory.store['zynthium_bar']>=20&&factory.store['energy']>=20){
-                    factory.produce('composite')
-                }
-                else if((factory.store["battery"]>=50 && storage.store.getFreeCapacity()>100000&&factory.store.getFreeCapacity()>5000)||
-                    factory.store['energy'<5000]){
-                    factory.produce(RESOURCE_ENERGY)
+                else{
+                    for(key of comlist){
+                        if(factory.pro(key) !== 0){
+                            continue
+                        }
+                        else{
+                            break
+                        }
+                    }
                 }
             }
         }
         else if(this.name == 'W29N5'){
             if(factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
-                if(factory.store['biomass']>=100&&factory.store['lemergium_bar']>=20&&factory.store['energy']>40){
-                    factory.produce('cell')
-                }
-                else if(factory.store['utrium_bar']>=20 && factory.store['silicon']>=100){
-                    factory.produce('wire')
-                }
-                else if(factory.store['zynthium_bar']>=20&&factory.store['metal']>=100&&factory.store['energy']>=40){
-                    factory.produce('alloy')
-                }
-                else if(factory.store['utrium_bar']>=100&&factory.store['energy']>=200&&storage.store['U']<=5000&&terminal.store['U']<5000){
+                if(factory.store['utrium_bar']>=100&&factory.store['energy']>=200&&storage.store['U']<=5000&&terminal.store['U']<5000){
                     factory.produce('U')
                 }
                 else if(factory.store['lemergium_bar']>=100&&factory.store['energy']>=200&&factory.store['L']<=1000&&storage.store['L']<=5000&&terminal.store['L']<=5000){
                     factory.produce('L')
                 }
-                else if(factory.store['U']>=500 &&factory.store['energy']>=200&&storage.store['U']+terminal.store['U']>80000){
+                else if(factory.store['U']>=500 &&factory.store['energy']>=200&&storage.store['U']+terminal.store['U']>50000){
                     factory.produce('utrium_bar')
                 }
                 else if(factory.store['purifier']>=100&&factory.store["energy"]>200&&factory.store['X']<1000&&storage.store['X']<5000){
@@ -618,9 +627,31 @@ const roomExtension = {
                 else if(factory.store['G']>=500&&factory.store['energy']>=200&&storage.store['ghodium_melt']<50000&&factory.store['ghodium_melt']<=1000){
                     factory.produce('ghodium_melt')
                 }
+                /*
                 else if((factory.store["battery"]>=50 && storage.store.getFreeCapacity()>200000&&factory.store.getFreeCapacity()>5000)||
                     factory.store['energy'<5000]){
                     factory.produce(RESOURCE_ENERGY)
+                }
+                */
+                else{
+                    for(key of comlist){
+                        if(factory.pro(key) !== 0){
+                            continue
+                        }
+                        else{
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        else if(this.name == 'W28N6'){
+            for(key of comlist){
+                if(factory.pro(key) !== 0){
+                    continue
+                }
+                else{
+                    break
                 }
             }
         }

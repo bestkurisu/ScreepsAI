@@ -1,12 +1,10 @@
 module.exports=function(){
     if(Game.time%10==0){
-        var GPrice=1.3
-        var GbarPrice=6
-        var roomName = ['W29N4','W29N5','W29N6']
+        var roomName = ['W29N4','W29N5','W29N6','W28N6']
         var order = Game.market.getAllOrders(order => 
             order.resourceType == RESOURCE_ENERGY && order.type == ORDER_BUY)
         order.sort((a,b)=>b.price-a.price)
-        var price = Math.min(0.085,order[0].price)
+        var price = Math.min(0.1,order[0].price)
         var deal=false
         if(_.size(Game.market.orders)>250){
             for(o in Game.market.orders){
@@ -38,7 +36,7 @@ module.exports=function(){
                 if(!deal){
                     var order = _.filter(Game.market.orders, o => o.type=="buy" && o.resourceType=='energy' &&
                                         o.roomName==roomName[i] && o.active==true)
-                    if(order.length==1){
+                    if(order.length>0){
                         if(order[0].price<price){
                             Game.market.changeOrderPrice(order[0].id,price)
                         }
@@ -51,6 +49,27 @@ module.exports=function(){
                     else if(Game.rooms[roomName[i]].terminal.store.getFreeCapacity()>10000){
                         buy('energy',price,400000-Game.rooms[roomName[i]].storage.store['energy'],roomName[i])
                     }
+                }
+            }
+            if(Game.rooms[roomName[i]].storage.store['ops']+Game.rooms[roomName[i]].terminal.store['ops']<15000){
+                var order = Game.market.getAllOrders(order => 
+                    order.resourceType == 'ops' && order.type == ORDER_BUY)
+                order.sort((a,b)=>b.price-a.price)
+                var opsprice = Math.min(2,order[0].price)
+                var order = _.filter(Game.market.orders, o => o.type=="buy" && o.resourceType=='ops' &&
+                    o.roomName==roomName[i] && o.active==true)
+                if(order.length>0){
+                    if(order[0].price<opsprice){
+                        Game.market.changeOrderPrice(order[0].id,opsprice)
+                    }
+                    var amount = 15000-Game.rooms[roomName[i]].storage.store['ops']-order[0].remainingAmount-Game.rooms[roomName[i]].terminal.store['ops']
+                    if(amount>0){
+                        Game.market.extendOrder(order[0].id,amount)
+                        console.log(roomName[i]+'挂了'+amount+'ops')
+                    }
+                }
+                else{
+                    buy('ops',price,15000-Game.rooms[roomName[i]].storage.store['ops'],roomName[i]-Game.rooms[roomName[i]].terminal.store['ops'])
                 }
             }
         }
@@ -74,23 +93,6 @@ module.exports=function(){
                 }
             }
         }
-        /*
-        var order = _.filter(Game.market.orders, o => o.type=="sell" && o.resourceType=='G')
-        if(order[0].remainingAmount<20000){
-            Game.market.extendOrder(order[0].id,20000-order[0].remainingAmount)
-        }
-        if(order[0].price<GPrice){
-            Game.market.changeOrderPrice(order[0].id,GPrice)
-        }
-
-        var order = _.filter(Game.market.orders, o => o.type=="sell" && o.resourceType=='ghodium_melt')
-        if(order[0].remainingAmount<10000){
-            Game.market.extendOrder(order[0].id,10000-order[0].remainingAmount)
-        }
-        if(order[0].price!==GbarPrice){
-            Game.market.changeOrderPrice(order[0].id,GbarPrice)
-        }
-        */
         var bar = Memory.stats.bar
         var barlist={
             Zbar: 'zynthium_bar',
@@ -153,7 +155,7 @@ module.exports=function(){
                 console.log('W29N5挂了'+amount+'电池')
             }
         }
-        if(Game.rooms['W29N4'].terminal.store['fixtures']>10){
+        if(Game.rooms['W29N4'].terminal.store['fixtures']>50){
             var order = Game.market.getAllOrders(order => 
                 order.resourceType == 'fixtures' && order.type == ORDER_BUY && order.amount>0)
             order.sort((a,b)=>b.price-a.price)

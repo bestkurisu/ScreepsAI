@@ -129,7 +129,7 @@ module.exports = function(roomName0,roomName1){
             translist.push(task)
         }
         if(Storage.store['U']>5000){
-            var task = addlist(Storage.id,Terminal.id,'U',3,1)
+            var task = addlist(Storage.id,Storage.id,'U',3,1)
             translist.push(task)
         }
     }

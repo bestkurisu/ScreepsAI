@@ -70,8 +70,8 @@ module.exports = {
     centertransporter4: centertransporter('W31S9'),
     centertransporter5: centertransporter('W29S5'),
 
-    claimer0: claimer('W29N3'),
-    claimer1: claimer('W28N3'),
+    claimer0: claimer('W31N6'),
+    claimer1: claimer('W31N4'),
     claimer2: claimer('W28N5'),
     claimer3: claimer('W29N7'),
 
@@ -113,6 +113,7 @@ module.exports = {
     depo4: depo('depo4'),
     depo5: depo('depo5'),
     depo6: depo('depo6'),
+    depo7: depo('depo7'),
 
     pba0: pba('pb0'),
     pbb0: pbb('pb0'),

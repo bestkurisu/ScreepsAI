@@ -51,6 +51,12 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: ''
             },
+            claimer: {
+                name: 'claimer',
+                role: [1],
+                body: [CLAIM,CLAIM,MOVE,MOVE,MOVE,MOVE],
+                amount: 1,
+            }
         }
         var config1 = {
             upgrader: {
@@ -145,6 +151,12 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: ''
             },
+            claimer: {
+                name: 'claimer',
+                role: [0],
+                body: [CLAIM,CLAIM,MOVE,MOVE,MOVE,MOVE],
+                amount: 1,
+            }
         }
         var config1 = {
             harvester: {
@@ -262,7 +274,7 @@ module.exports = function(spawn) {
                 name: 'upgrader',
                 role: [3],
                 body: bodyConfigs.upgrader.body3,
-                amount: 1,
+                amount: 2,
             },
             harvester: {
                 name: 'harvester',
@@ -274,7 +286,7 @@ module.exports = function(spawn) {
                 name: 'centertransporter',
                 role: [3],
                 body: bodyConfigs.centertransporter.body1,
-                amount: 0,
+                amount: 1,
                 add: '',
             },
             wallrepairer: {
@@ -354,10 +366,10 @@ module.exports = function(spawn) {
         var config1 = {
             depo: {
                 name: 'depo',
-                role: [5,6],
+                role: [5,6,7],
                 body: bodyConfigs.depo.body1,
                 amount: 1,
-                flag: ['depo5','depo6']
+                flag: ['depo5','depo6','depo7']
             },
             harvester: {
                 name: 'harvester',
@@ -393,7 +405,7 @@ module.exports = function(spawn) {
                 name: 'upgrader',
                 role: [5],
                 body: bodyConfigs.upgrader.body2,
-                amount: 2,
+                amount: 1,
                 add: '',
             },
             harvester: {
@@ -413,7 +425,7 @@ module.exports = function(spawn) {
             transporter: {
                 name: 'transporter',
                 role: [4],
-                body: bodyConfigs.transporter.body1,
+                body: bodyConfigs.transporter.body2,
                 amount: 2,
                 add: '',
             },
