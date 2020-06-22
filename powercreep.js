@@ -192,6 +192,9 @@ module.exports = (name) => {
                                 creep.memory.state = update(creep.memory.state,powerlist.length)
                             }
                         }
+                        else if(powerlist[creep.memory.state] == 5){
+                            creep.memory.state = update(creep.memory.state,powerlist.length)
+                        }
                         else if(powerlist[creep.memory.state] == 19){
                             if(powers[19](creep,configs.facid) == -1){
                                 creep.memory.state = update(creep.memory.state,powerlist.length)

@@ -51,12 +51,6 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: ''
             },
-            claimer: {
-                name: 'claimer',
-                role: [1],
-                body: [CLAIM,CLAIM,MOVE,MOVE,MOVE,MOVE],
-                amount: 1,
-            }
         }
         var config1 = {
             upgrader: {
@@ -151,12 +145,6 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: ''
             },
-            claimer: {
-                name: 'claimer',
-                role: [0],
-                body: [CLAIM,CLAIM,MOVE,MOVE,MOVE,MOVE],
-                amount: 1,
-            }
         }
         var config1 = {
             harvester: {
@@ -266,15 +254,9 @@ module.exports = function(spawn) {
             spawntrans: {
                 name: 'spawntrans',
                 role: [3],
-                body: bodyConfigs.spawntrans.body2,
+                body: bodyConfigs.spawntrans.body3,
                 amount: 1,
                 add: '',
-            },
-            upgrader: {
-                name: 'upgrader',
-                role: [3],
-                body: bodyConfigs.upgrader.body3,
-                amount: 2,
             },
             harvester: {
                 name: 'harvester',
@@ -296,12 +278,6 @@ module.exports = function(spawn) {
                 amount: 0,
                 add: ''
             },
-            builder: {
-                name: 'builder',
-                role: [2],
-                body: bodyConfigs.builder.body0,
-                amount: 0,
-            },
         }
         var config1 = {
             harvester: {
@@ -310,6 +286,19 @@ module.exports = function(spawn) {
                 body: bodyConfigs.harvester.body2,
                 amount: 1,
                 flag: ['Flag20']
+            },
+            labman: {
+                name: 'labman',
+                role: [3],
+                body: bodyConfigs.labman.body2,
+                amount: 1,
+                room: ['W28N6']
+            },
+            upgrader: {
+                name: 'upgrader',
+                role: [3],
+                body: bodyConfigs.upgrader.body4,
+                amount: 1,
             },
         }
     }
@@ -352,7 +341,7 @@ module.exports = function(spawn) {
             wallrepairer: {
                 name: 'wallrepairer',
                 role: [4],
-                body: bodyConfigs.wallrepairer.body0,
+                body: bodyConfigs.wallrepairer.body1,
                 amount: 0,
                 add: ''
             },
@@ -378,13 +367,6 @@ module.exports = function(spawn) {
                 amount: 1,
                 flag: ['Flag19']
             },
-            lorry: {
-                name: 'lorry',
-                role: [0],
-                body: [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],
-                amount: 1,
-                flag: ['flag']
-            }
         }
     }
     if(Game.spawns[spawn].pos.roomName == 'W29S5'){
@@ -431,7 +413,7 @@ module.exports = function(spawn) {
             },
             wallrepairer: {
                 name: 'wallrepairer',
-                role: [4],
+                role: [5],
                 body: bodyConfigs.wallrepairer.body1,
                 amount: 0,
                 add: ''
@@ -503,7 +485,7 @@ module.exports = function(spawn) {
                     else if(cc.name == 'depo'){
                         if(Game.flags[cc.flag[i]]){
                             var flag = Memory.flags[cc.flag[i]]
-                            if(creepRole.length<1 && (!flag || flag.lastCooldown<100)){
+                            if(creepRole.length<1 && (!flag || flag.lastCooldown<150)){
                                 var task = setTask(cc,i)
                                 spawnlist.push(task)
                             }

@@ -78,7 +78,7 @@ module.exports = {
     labman0: labman('W29N4'),
     labman1: labman('W29N6'),
     labman2: labman('W29N5'),
-    labman3: labman('W26N7'),
+    labman3: labman('W28N6'),
     labman4: labman('W31S9'),
     labman5: labman('W29S5'),
 
@@ -100,6 +100,7 @@ module.exports = {
     wallrepairer2: wallrepairer('W29N5'),
     wallrepairer3: wallrepairer('W28N6'),
     wallrepairer4: wallrepairer('W31S9'),
+    wallrepairer5: wallrepairer('W29S5'),
     
     defender0: defender('W29N3'),
     defender1: defender('W28N3'),

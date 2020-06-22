@@ -1,9 +1,11 @@
 const mount = require('mount')
 const market = require('market')
+const defense = require('ActiveDefense')
 require('超级移动优化v0.9.4')
 require('planner v1.0.1')
 require('RoomVisual')
 require('极致建筑缓存');
+require('prototype.Room.structures')
 for(let room in Game.rooms){
     Game.rooms[room].update();  // 在第一次见到某房间或某房间中出现新建筑时调用room.update()函数更新缓存
 }
@@ -48,18 +50,23 @@ const stateScanner = function () {
         W29N4: getstore('W29N4',1),
         W29N5: getstore('W29N5',1),
         W29N6: getstore('W29N6',1),
+        W28N6: getstore('W28N6',1)
     }
     Memory.stats.rcl = {
-        W29N5: rcl('W29N5'),
         W29S5: rcl('W29S5'),
         W31S9: rcl('W31S9'),
         W28N6: rcl('W28N6'),
     }
 }
 module.exports.loop = function () {
+    if(Game.cpu.bucket>8000){
+        Game.cpu.generatePixel()
+    }
     mount()
     market()
-
+    //defense.main('W29N4')
+    //defense.main('W29N5')
+    //defense.main('W29N6')
     if(Game.shard.name=='shard3') var startCpu0 = Game.cpu.getUsed()
     for(var name in Memory.creeps){
         if(!Game.creeps[name]){

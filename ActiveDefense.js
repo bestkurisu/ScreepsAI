@@ -18,7 +18,7 @@ var defense = {
                 if (!room.memory.defense.savedMatrix || Game.time % 50 === 0) {
                     this.make_defense_cost(room);
                 }
-                this.spawn_Defense(room, 1, 1);//0表示满员 1表示未满
+                this.spawn_Defender(room, 1, 1);//0表示满员 1表示未满
             } 
             else {
                 room.visual.text('safe', room.controller.pos);

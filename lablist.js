@@ -41,6 +41,18 @@ module.exports = function(roomName){
                     Game.getObjectById('5ec352a9111063141d946fb5'),
                     Game.getObjectById('5ec36f813f49fc5c24094e37')]
     }
+    else if(roomName == 'W28N6'){
+        var lab = [Game.getObjectById('5ec36fac05ada05bc96865f9'),
+                    Game.getObjectById('5eb6760f40ee73c687915e4c'),
+                    Game.getObjectById('5ee92d16d86e581318a4184f'),
+                    Game.getObjectById('5ee91a93aef40c556cfab9a5'),
+                    Game.getObjectById('5ee90468cccf4936eaedbb2e'),
+                    Game.getObjectById('5ee8f1989269083fa9ec8be6'),
+                    Game.getObjectById('5ec2fe6bbc03a0130d0dd1ac'),
+                    Game.getObjectById('5ec267aa6d9370de30db18c8'),
+                    Game.getObjectById('5eb657ba4818e84ba6695930'),
+                    Game.getObjectById('5eb666f696cd0c30f51c3277')]
+    }
     addlist = function(resource,from,to){
         var task = {
             resource:resource,

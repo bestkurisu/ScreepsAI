@@ -35,6 +35,9 @@ module.exports = (flagName) => {
                 }
                 else{
                     var depo = Game.getObjectById(Memory.flags[flagName].source)
+                    if(!depo){
+                        Game.flags[flagName].remove()
+                    }
                     if(creep.store.getFreeCapacity()>10 && creep.ticksToLive>300){
                         if(!creep.memory.dontPullMe) creep.memory.dontPullMe = true
                         if(creep.pos.getRangeTo(Game.flags[flagName].pos) > 1) creep.ready = false
@@ -53,7 +56,7 @@ module.exports = (flagName) => {
                         }
                         if(creep.memory.dontPullMe) creep.memory.dontPullMe = false
                         if(flagName=='depo0'||flagName=='depo1'||flagName=='depo2'||flagName=='depo3'||flagName=='depo4'){
-                            var Storage = Game.getObjectById('5e92e9fca1606d71a271269f')
+                            var Storage = Game.getObjectById('5e843bd5837b7673c3718b8d')
                         }
                         else{
                             var Storage = Game.getObjectById('5ec18146726bbf3045e5c02f')
@@ -80,7 +83,7 @@ module.exports = (flagName) => {
             else{
                 if(creep.store.getUsedCapacity()>0){
                     if(flagName=='depo0'||flagName=='depo1'||flagName=='depo2'){
-                        var Storage = Game.getObjectById('5e92e9fca1606d71a271269f')
+                        var Storage = Game.getObjectById('5e843bd5837b7673c3718b8d')
                     }
                     else{
                         var Storage = Game.getObjectById('5ec18146726bbf3045e5c02f')

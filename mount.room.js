@@ -202,15 +202,15 @@ const roomExtension = {
         if(this.name == 'W29N4'){
             var lab = [Game.getObjectById('5e91a9054c37b27c44d63871'),
                         Game.getObjectById('5e89e735444aab20c0c59e8f')]
-            if(this.memory.labstate==0&&storage.store['GO']>50000) this.memory.labstate=1
+            if(this.memory.labstate==0&&storage.store['GH']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['GHO2']>49000) this.memory.labstate=3
-            //if(this.memory.labstate==3&&storage.store['GHO2']<1000) this.memory.labstate=0
+            if(this.memory.labstate==2&&storage.store['GH2O']>49000) this.memory.labstate=3
+            if(this.memory.labstate==3&&storage.store['GH2O']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
-                var x='GO'
+                var x='GH'
                 var sto = {
                     0: "G",
-                    1: "O",
+                    1: "H",
                 }
             }
             else if(this.memory.labstate==1){
@@ -221,16 +221,16 @@ const roomExtension = {
                 }
             }
             else if(this.memory.labstate==2){
-                var x='GHO2'
+                var x='GH2O'
                 var sto = {
-                    0: "GO",
+                    0: "GH",
                     1: "OH",
                 }
             }
             else if(this.memory.labstate==3){
-                var x='XGHO2'
+                var x='XGH2O'
                 var sto={
-                    0: "GHO2",
+                    0: "GH2O",
                     1: "X",
                 }
             }
@@ -262,15 +262,15 @@ const roomExtension = {
         else if(this.name == 'W29N6'){
             var lab = [Game.getObjectById('5e93a9ee8db0f00c6ee61b71'),
                         Game.getObjectById('5e93582c282f2697a10e2775')]
-            if(this.memory.labstate==0&&storage.store['KO']>50000) this.memory.labstate=1
+            if(this.memory.labstate==0&&storage.store['LH']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['KHO2']>49000) this.memory.labstate=3
-            //if(this.memory.labstate==3&&storage.store['KHO2']<1000) this.memory.labstate=0
+            if(this.memory.labstate==2&&storage.store['LH2O']>49000) this.memory.labstate=3
+            if(this.memory.labstate==3&&storage.store['LH2O']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
-                var x='KO'
+                var x='LH'
                 var sto = {
-                    0: "K",
-                    1: "O",
+                    0: "L",
+                    1: "H",
                 }
             }
             else if(this.memory.labstate==1){
@@ -281,16 +281,16 @@ const roomExtension = {
                 }
             }
             else if(this.memory.labstate==2){
-                var x='KHO2'
+                var x='LH2O'
                 var sto = {
-                    0: "KO",
+                    0: "LH",
                     1: "OH",
                 }
             }
             else if(this.memory.labstate==3){
-                var x='XKHO2'
+                var x='XLH2O'
                 var sto={
-                    0: "KHO2",
+                    0: "LH2O",
                     1: "X",
                 }
             }
@@ -321,14 +321,14 @@ const roomExtension = {
         }
         else if(this.name == 'W29N5'){
             if(this.memory.labstate==undefined) this.memory.labstate=0
-            if(this.memory.labstate==0&&storage.store['LO']>50000) this.memory.labstate=1
+            if(this.memory.labstate==0&&storage.store['ZO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['LHO2']>49000) this.memory.labstate=3
-            //if(this.memory.labstate==3&&storage.store['LHO2']<1000) this.memory.labstate=0
+            if(this.memory.labstate==2&&storage.store['ZHO2']>49000) this.memory.labstate=3
+            if(this.memory.labstate==3&&storage.store['ZHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
-                var x='LO'
+                var x='ZO'
                 var sto = {
-                    0: "L",
+                    0: "Z",
                     1: "O",
                 }
             }
@@ -340,17 +340,68 @@ const roomExtension = {
                 }
             }
             else if(this.memory.labstate==2){
-                var x='LHO2'
+                var x='ZHO2'
                 var sto = {
-                    0: "LO",
+                    0: "ZO",
                     1: "OH",
                 }
             }
             else if(this.memory.labstate==3){
-                var x='XLHO2'
+                var x='XZHO2'
                 var sto={
-                    0: "LHO2",
+                    0: "ZHO2",
                     1: "X",
+                }
+            }
+            var sfrom = {
+                4: x,
+                2: x,
+                3: x,
+                5: x,
+                6: x,
+                7: x,
+                8: x,
+                9: x
+            }
+            var mid = {
+
+            }
+            var reaction = {
+                2: [0,1],
+                3: [0,1],
+                4: [0,1],
+                5: [0,1],
+                6: [0,1],
+                7: [0,1],
+                8: [0,1],
+                9: [0,1]
+            }
+            this.memory.labtask = [sfrom,sto,mid,reaction]
+        }
+        else if(this.name == 'W28N6'){
+            if(this.memory.labstate==undefined) this.memory.labstate=0
+            if(this.memory.labstate==0&&storage.store['ZK']>50000) this.memory.labstate=1
+            if(this.memory.labstate==1&&storage.store['UL']>50000) this.memory.labstate=2
+            if(this.memory.labstate==3&&storage.store['ZK']<1000) this.memory.labstate=0
+            if(this.memory.labstate==0){
+                var x='ZK'
+                var sto = {
+                    0: "Z",
+                    1: "K",
+                }
+            }
+            else if(this.memory.labstate==1){
+                var x='UL'
+                var sto = {
+                    0: "U",
+                    1: "L",
+                }
+            }
+            else if(this.memory.labstate==2){
+                var x='G'
+                var sto = {
+                    0: "ZK",
+                    1: "UL",
                 }
             }
             var sfrom = {
@@ -385,12 +436,6 @@ const roomExtension = {
             if(this.terminal.store["battery"]>5000){
                 this.terminal.send("battery",this.terminal.store['battery'],'W29N4')
             }
-            else if(this.terminal.store['phlegm']>0){
-                this.terminal.send('phlegm',this.terminal.store['phlegm'],'W29N4')
-            }
-            else if(this.terminal.store['switch']>0){
-                this.terminal.send('switch',this.terminal.store['switch'],'W29N4')
-            }
             else if(this.terminal.store['G']>20000){
                 if(Game.rooms['W29N4'].terminal.store['G']<50000){
                     this.terminal.send('G',10000,'W29N4')
@@ -399,13 +444,22 @@ const roomExtension = {
                     this.terminal.send('G',10000,'W29N5')
                 }
             }
-            else if(this.terminal.store['spirit']>0){
-                this.terminal.send('spirit',1,'E41N49')
-            }
         }
         if(this.name == 'W29N4'){
+            if(!this.memory.miststate) this.memory.miststate=0
             if(this.terminal.store["power"]>5000 && Game.rooms['W29N5'].storage.store['power']<this.storage.store['power']){
-                this.terminal.send("power",this.terminal.store['power'],'W29N5')
+                this.terminal.send("power",5000,'W29N5')
+            }
+            else if(this.terminal.store['K']>20000){
+                this.terminal.send('K',10000,'W28N6')
+            }
+            else if(this.memory.miststate==0 && this.terminal.store['condensate']>=160){
+                this.terminal.send('condensate',160,'W28N6')
+                this.memory.miststate=1
+            }
+            else if(this.memory.miststate==1 && this.terminal.store['condensate']>=30){
+                this.terminal.send('condensate',30,'W29N5')
+                this.memory.miststate=0
             }
         }
         if(this.name == 'W29N5'){
@@ -457,18 +511,15 @@ const roomExtension = {
                     }
                 }
             }
-            if(this.terminal.store['alloy']>0){
-                this.terminal.send('alloy',this.terminal.store['alloy'],'W29N4')
-            }
-            else if(this.terminal.store['extract']>0){
+            if(this.terminal.store['extract']>0){
                 this.terminal.send('extract',this.terminal.store['extract'],'W29N6')
             }
             else if(this.terminal.store['O']>40000){
-                if(Game.rooms['W29N4'].terminal.store['O']<30000){
-                    this.terminal.send('O',30000,'W29N4')
+                if(Game.rooms['W29N4'].terminal.store['O']+Game.rooms['W29N4'].storage.store['O']<10000){
+                    this.terminal.send('O',20000,'W29N4')
                 }
-                else if(Game.rooms['W29N6'].terminal.store['O']<30000){
-                    this.terminal.send('O',30000,'W29N6')
+                else if(Game.rooms['W29N6'].terminal.store['O']+Game.rooms['W29N4'].storage.store['O']<10000){
+                    this.terminal.send('O',20000,'W29N6')
                 }
             }
             else{
@@ -488,13 +539,15 @@ const roomExtension = {
                     if(this.terminal.send('concentrate',6,'W29N6')==0){
                         this.memory.miststate=0
                     }
-                    
                 }
+            }
+            else if(this.terminal.store['energy']>45000 && this.storage.store['energy']>400000){
+                this.terminal.send('energy',40000,'W29N5')
             }
         }
         if(this.name=='W31S9'){
             if(this.terminal.store['metal']>1000){
-                //this.terminal.send('metal',this.terminal.store['metal'],'W29N5')
+                this.terminal.send('metal',this.terminal.store['metal'],'W29N4')
             }
             else if(this.terminal.store['K']>10000){
                 this.terminal.send('K',this.terminal.store['K'],'W29N6')
@@ -510,16 +563,16 @@ const roomExtension = {
         var storage = this.storage
         var terminal = this.terminal
         if(this.name=='W29N4'){
-            var comlist=['hydraulics','organoid','circuit','emanation','wire','cell','alloy','condensate']
+            var comlist=['hydraulics','organoid','circuit','emanation','wire','cell','alloy','condensate','energy']
         }
         if(this.name=='W29N5'){
-            var comlist=['fixtures','tissue','transistor','extract','wire','cell','alloy','condensate']
+            var comlist=['fixtures','tissue','transistor','extract','wire','cell','alloy','condensate','crystal']
         }
         if(this.name=='W29N6'){
-            var comlist=['frame','muscle','microchip','spirit','wire','cell','alloy','condensate']
+            var comlist=['frame','muscle','microchip','spirit','wire','cell','alloy','condensate','liquid']
         }
         if(this.name=='W28N6'){
-            var comlist=['tube','phlegm','switch','concentrate','wire','cell','alloy','condensate']
+            var comlist=['tube','phlegm','switch','concentrate','wire','cell','alloy','condensate','composite','reductant','oxidant']
         }
         if(this.name == 'W29N4'){
             if(factory && factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
@@ -580,6 +633,9 @@ const roomExtension = {
                 else if(factory.store['utrium_bar']>=100&&factory.store['energy']>=200&&storage.store['U']<=5000&&terminal.store['U']<5000){
                     factory.produce('U')
                 }
+                else if(factory.store['U']>=500 &&factory.store['energy']>=200&&storage.store['U']+terminal.store['U']>10000){
+                    factory.produce('utrium_bar')
+                }
                 else if(factory.store['keanium_bar']>=100&&factory.store['energy']>=200&&factory.store['K']<=1000&&storage.store['K']<=5000){
                     factory.produce('K')
                 }
@@ -606,8 +662,11 @@ const roomExtension = {
                 else if(factory.store['lemergium_bar']>=100&&factory.store['energy']>=200&&factory.store['L']<=1000&&storage.store['L']<=5000&&terminal.store['L']<=5000){
                     factory.produce('L')
                 }
-                else if(factory.store['U']>=500 &&factory.store['energy']>=200&&storage.store['U']+terminal.store['U']>50000){
+                else if(factory.store['U']>=500 &&factory.store['energy']>=200&&storage.store['U']+terminal.store['U']>10000){
                     factory.produce('utrium_bar')
+                }
+                else if(factory.store['K']>=500 &&factory.store['energy']>=200&&storage.store['K']+terminal.store['K']>10000){
+                    factory.produce('keanium_bar')
                 }
                 else if(factory.store['purifier']>=100&&factory.store["energy"]>200&&factory.store['X']<1000&&storage.store['X']<5000){
                     factory.produce('X')
@@ -646,13 +705,23 @@ const roomExtension = {
             }
         }
         else if(this.name == 'W28N6'){
-            for(key of comlist){
-                if(factory.pro(key) !== 0){
-                    continue
+            if(0){
+                
+            }
+            else{
+                for(key of comlist){
+                    if(factory.pro(key) !== 0){
+                        continue
+                    }
+                    else{
+                        break
+                    }
                 }
-                else{
-                    break
-                }
+            }
+        }
+        else if(this.name == 'W31S9'){
+            if(factory.store['U']>=500 && factory.store['energy']>200){
+                factory.produce('utrium_bar')
             }
         }
     },
