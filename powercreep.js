@@ -116,13 +116,15 @@ module.exports = (name) => {
             if(name == 'YoRHa-6o'){
                 var configs={
                     roomName:'W29N4',
-                    facid:Game.rooms['W29N4'].factory.id
+                    facid:Game.rooms['W29N4'].factory.id,
+                    stoid:Game.rooms['W29N4'].storage.id
                 }
             }
             if(name == 'YoRHa-4o'){
                 var configs={
                     roomName:'W29N6',
-                    facid:Game.rooms['W29N6'].factory.id
+                    facid:Game.rooms['W29N6'].factory.id,
+                    stoid:Game.rooms['W29N6'].storage.id
                 }
             }
             if(name == 'YoRHa-8o'){

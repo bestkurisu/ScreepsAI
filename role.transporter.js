@@ -69,7 +69,7 @@ module.exports = (roomName) => {
                         if(sto.store.getFreeCapacity(creep.memory.translist.resource) == 0){
                             creep.memory.translist = undefined
                         }
-                        else if(sfrom.store[creep.memory.translist.resource]<20000){
+                        else if(sfrom.store[creep.memory.translist.resource]<2000){
                             if(creep.store[creep.memory.translist.resource]>0){
                                 creep.goTransfer(sfrom,creep.memory.translist.resource)
                             }

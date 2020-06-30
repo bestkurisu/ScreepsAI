@@ -61,6 +61,10 @@ module.exports = (roomName) => {
                     var sfrom = Game.getObjectById(creep.memory.centerlist.from)
                     var sto = Game.getObjectById(creep.memory.centerlist.to)
                     var resource = creep.memory.centerlist.resource
+                    if(Storage.store.getFreeCapacity()==0){
+                        creep.transferAll(Terminal)
+                        return
+                    }
                     if(creep.store.getFreeCapacity(resource)+creep.store[resource]<creep.store.getCapacity()){
                         if(Storage.store.getFreeCapacity()==0){
                             creep.transferAll(Terminal)

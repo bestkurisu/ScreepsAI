@@ -22,6 +22,7 @@ module.exports = function(roomName){
             ZK: 10000,
             UL: 10000,
             H: 20000,
+            G:50000,
             O: 20000,
             tissue: 10000,
             organism: 10,
@@ -29,7 +30,6 @@ module.exports = function(roomName){
             L: 10000,
             crystal: 10000,
             XGHO2: 50000,
-            power: 10000,
             ops: 5000,
             condensate: 10000,
             wire:10000,
@@ -41,6 +41,8 @@ module.exports = function(roomName){
             fixtures:100,
             machine:10,
             XZHO2:50000,
+            XGH2O: 50000,
+            device:10000,
         }
         var faclist = {
             battery: 5000,
@@ -76,6 +78,8 @@ module.exports = function(roomName){
             liquid:5000,
             microchip:1000,
             frame:1000,
+            XZHO2:50000,
+            XLH2O:50000,
         }
         var faclist = {
             utrium_bar: 1000,
@@ -101,7 +105,6 @@ module.exports = function(roomName){
     }
     if(roomName == 'W29N5'){
         var terlist = {
-            O: 50000,
             ops: 5000,
             reductant: 10000,
             oxidant: 10000,
@@ -110,12 +113,12 @@ module.exports = function(roomName){
             purifier: 10000,
             zynthium_bar: 10000,
             lemergium_bar: 10000,
-            ghodium_melt: 10000,
+            ghodium_melt: 20000,
             XZHO2:60000,
             XKHO2:10000,
             XGHO2:100000,
             extract:1000,
-            crystal:5000,
+            crystal:20000,
             transistor:1000,
             silicon:1000,
             metal:1000,
@@ -135,21 +138,24 @@ module.exports = function(roomName){
             O: 1000,
             U: 1000,
             K: 1000,
-            condensate:1000,
+            condensate:500,
             concentrate:100,
             wire:100,
             switch:100,
             alloy:100,
             composite:100,
+            mist:100,
         }
     }
     if(roomName == 'W28N6'){
         var terlist = {
             ops:5000,
             concentrate:1000,
-            composite:5000,
+            composite:50000,
             switch:1000,
             tube:1000,
+            G:50000,
+            GH:50000,
         }
         var faclist = {
             U:1000,

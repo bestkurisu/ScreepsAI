@@ -10,30 +10,35 @@ const checkInterval = 10; //搜索敌人间隔,10Tick检测一次
 var defense = {
     main: function (roomName) {
         const room = Game.rooms[roomName];
-        try {
-            const check = this.check(room);//如果房间无敌对creep 则开始检测 0表示检测到了进入防守模式 1表示节省cpu时间中 2表示已经在防守模式了
-            this.tower(room);
-            if (check === 2) {//防守模式
-                room.visual.text('DEFENSE', 25, 25);
-                if (!room.memory.defense.savedMatrix || Game.time % 50 === 0) {
-                    this.make_defense_cost(room);
+        if(room){
+            try {
+                const check = this.check(room);//如果房间无敌对creep 则开始检测 0表示检测到了进入防守模式 1表示节省cpu时间中 2表示已经在防守模式了
+                this.tower(room);
+                if (check === 2) {//防守模式
+                    room.visual.text('DEFENSE', 25, 25);
+                    if (!room.memory.defense.savedMatrix || Game.time % 50 === 0) {
+                        this.make_defense_cost(room);
+                    }
+                    this.spawn_Defender(room, 1, 1);//0表示满员 1表示未满
+                } 
+                else {
+                    room.visual.text('safe', room.controller.pos);
+                    this.builder_run(room);
+                    return;
                 }
-                this.spawn_Defender(room, 1, 1);//0表示满员 1表示未满
+                this.atk_run(room);
             } 
-            else {
-                room.visual.text('safe', room.controller.pos);
-                this.builder_run(room);
-                return;
+            catch (err) {
+                console.log(err); //有错误抛出时重置memory
+                room.memory.defense = {
+                    'hostile_Creeps': [],
+                    'Defender_creeps': { 'atk': [], 'builder': [] },
+                    'savedMatrix': false
+                }
             }
-            this.atk_run(room);
-        } 
-        catch (err) {
-            console.log(err); //有错误抛出时重置memory
-            room.memory.defense = {
-                'hostile_Creeps': [],
-                'Defender_creeps': { 'atk': [], 'builder': [] },
-                'savedMatrix': false
-            }
+        }
+        else{
+            console.log(roomName+'无视野')
         }
     },
     check: function (room) {

@@ -63,7 +63,9 @@ module.exports.loop = function () {
         Game.cpu.generatePixel()
     }
     mount()
-    market()
+    if(Game.shard.name == 'shard3'){
+        market()
+    }
     //defense.main('W29N4')
     //defense.main('W29N5')
     //defense.main('W29N6')
@@ -85,16 +87,18 @@ module.exports.loop = function () {
     }
     
     for(var name in Game.rooms){
-        try{
-            var cpu0 = Game.cpu.getUsed()
-            Game.rooms[name].work()
-            var cpu = Game.cpu.getUsed()-cpu0
-            if(Game.time%5==0){
-                //console.log(name+' used '+cpu)
+        if(Game.shard.name=='shard3'){
+            try{
+                var cpu0 = Game.cpu.getUsed()
+                Game.rooms[name].work()
+                var cpu = Game.cpu.getUsed()-cpu0
+                if(Game.time%5==0){
+                    //console.log(name+' used '+cpu)
+                }
             }
-        }
-        catch(e){
-            console.log(e.stack)
+            catch(e){
+                console.log(e.stack)
+            }
         }
     }
     for(var name in Game.creeps){

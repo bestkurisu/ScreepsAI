@@ -188,36 +188,49 @@ module.exports = function(roomName0,roomName1){
     else if(roomName1 == 'W29S5'){
         var storage=Game.rooms[roomName1].storage
         var terminal=Game.rooms[roomName1].terminal
+        var factory=Game.rooms[roomName1].factory
         var container = [Game.getObjectById('5ebc559662ddff832f2f6da9'),
                         Game.getObjectById('5ebc42b26ae95c3a809c5257'),
                         Game.getObjectById('5ec148260cd6850b23f7e46b'),
                         Game.getObjectById('5ece5f40b8cf0f5384b11af8')]
         if(container[0]&&container[0].store[RESOURCE_ENERGY] > 900){
-            if(terminal.store['energy']<50000){
+            if(terminal.store['energy']<100000){
                 var task = addlist(container[0].id, terminal.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
             }
-            else{
-                var task = addlist(container[0].id, storage.id,RESOURCE_ENERGY,2,1)
+            else if(factory.store['energy']<10000){
+                var task = addlist(container[0].id, factory.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
             }
+            else{
+                var task = addlist(container[0].id, Storage0.id,RESOURCE_ENERGY,2,1)
+                translist.push(task)
+            } 
         }
         if(container[1]&&container[1].store[RESOURCE_ENERGY] > 900){
-            if(terminal.store['energy']<50000){
+            if(terminal.store['energy']<100000){
                 var task = addlist(container[1].id, terminal.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
             }
-            else{
-                var task = addlist(container[1].id, storage.id,RESOURCE_ENERGY,2,1)
+            else if(factory.store['energy']<10000){
+                var task = addlist(container[1].id, factory.id,RESOURCE_ENERGY,2,1)
                 translist.push(task)
             }
+            else{
+                var task = addlist(container[1].id, Storage0.id,RESOURCE_ENERGY,2,1)
+                translist.push(task)
+            } 
         }
         if(container[2].store['energy']<1200){
             var task = addlist(storage.id,container[2].id,RESOURCE_ENERGY,1,1)
             translist.push(task)
         }
         if(container[3].store['K']>900){
-            var task = addlist(container[3].id, terminal.id,'K',2,1)
+            var task = addlist(container[3].id, factory.id,'K',2,1)
+            translist.push(task)
+        }
+        if(factory.store['keanium_bar']>1000){
+            var task = addlist(factory.id,terminal.id,'keanium_bar',2,1)
             translist.push(task)
         }
     }

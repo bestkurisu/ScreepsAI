@@ -265,7 +265,7 @@ const roomExtension = {
             if(this.memory.labstate==0&&storage.store['LH']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
             if(this.memory.labstate==2&&storage.store['LH2O']>49000) this.memory.labstate=3
-            if(this.memory.labstate==3&&storage.store['LH2O']<1000) this.memory.labstate=0
+            //if(this.memory.labstate==3&&storage.store['LH2O']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
                 var x='LH'
                 var sto = {
@@ -321,14 +321,14 @@ const roomExtension = {
         }
         else if(this.name == 'W29N5'){
             if(this.memory.labstate==undefined) this.memory.labstate=0
-            if(this.memory.labstate==0&&storage.store['ZO']>50000) this.memory.labstate=1
+            if(this.memory.labstate==0&&storage.store['LO']>50000) this.memory.labstate=1
             if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
-            if(this.memory.labstate==2&&storage.store['ZHO2']>49000) this.memory.labstate=3
-            if(this.memory.labstate==3&&storage.store['ZHO2']<1000) this.memory.labstate=0
+            if(this.memory.labstate==2&&storage.store['LHO2']>49000) this.memory.labstate=3
+            if(this.memory.labstate==3&&storage.store['LHO2']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
-                var x='ZO'
+                var x='LO'
                 var sto = {
-                    0: "Z",
+                    0: "L",
                     1: "O",
                 }
             }
@@ -340,16 +340,16 @@ const roomExtension = {
                 }
             }
             else if(this.memory.labstate==2){
-                var x='ZHO2'
+                var x='LHO2'
                 var sto = {
-                    0: "ZO",
+                    0: "LO",
                     1: "OH",
                 }
             }
             else if(this.memory.labstate==3){
-                var x='XZHO2'
+                var x='XLHO2'
                 var sto={
-                    0: "ZHO2",
+                    0: "LHO2",
                     1: "X",
                 }
             }
@@ -380,28 +380,36 @@ const roomExtension = {
         }
         else if(this.name == 'W28N6'){
             if(this.memory.labstate==undefined) this.memory.labstate=0
-            if(this.memory.labstate==0&&storage.store['ZK']>50000) this.memory.labstate=1
-            if(this.memory.labstate==1&&storage.store['UL']>50000) this.memory.labstate=2
-            if(this.memory.labstate==3&&storage.store['ZK']<1000) this.memory.labstate=0
+            if(this.memory.labstate==0&&storage.store['GH']>50000) this.memory.labstate=1
+            if(this.memory.labstate==1&&storage.store['OH']>50000) this.memory.labstate=2
+            if(this.memory.labstate==2&&storage.store['GH2O']>50000) this.memory.labstate=3
+            if(this.memory.labstate==3&&storage.store['GH2O']<1000) this.memory.labstate=0
             if(this.memory.labstate==0){
-                var x='ZK'
+                var x='GH'
                 var sto = {
-                    0: "Z",
-                    1: "K",
+                    0: "G",
+                    1: "H",
                 }
             }
             else if(this.memory.labstate==1){
-                var x='UL'
+                var x='OH'
                 var sto = {
-                    0: "U",
-                    1: "L",
+                    0: "O",
+                    1: "H",
                 }
             }
             else if(this.memory.labstate==2){
-                var x='G'
+                var x='GH2O'
                 var sto = {
-                    0: "ZK",
-                    1: "UL",
+                    0: "GH",
+                    1: "OH",
+                }
+            }
+            else if(this.memory.labstate==3){
+                var x='XGH2O'
+                var sto = {
+                    0: "XGH2O",
+                    1: "X",
                 }
             }
             var sfrom = {
@@ -514,14 +522,6 @@ const roomExtension = {
             if(this.terminal.store['extract']>0){
                 this.terminal.send('extract',this.terminal.store['extract'],'W29N6')
             }
-            else if(this.terminal.store['O']>40000){
-                if(Game.rooms['W29N4'].terminal.store['O']+Game.rooms['W29N4'].storage.store['O']<10000){
-                    this.terminal.send('O',20000,'W29N4')
-                }
-                else if(Game.rooms['W29N6'].terminal.store['O']+Game.rooms['W29N4'].storage.store['O']<10000){
-                    this.terminal.send('O',20000,'W29N6')
-                }
-            }
             else{
                 sendBar(this,barlist)
             }
@@ -541,6 +541,9 @@ const roomExtension = {
                     }
                 }
             }
+            else if(this.terminal.store['composite']>10000 && Game.rooms['W29N6'].storage.store['composite']+Game.rooms['W29N6'].terminal.store['composite']<30000){
+                this.terminal.send('composite',10000,'W29N6')
+            }
             else if(this.terminal.store['energy']>45000 && this.storage.store['energy']>400000){
                 this.terminal.send('energy',40000,'W29N5')
             }
@@ -549,11 +552,16 @@ const roomExtension = {
             if(this.terminal.store['metal']>1000){
                 this.terminal.send('metal',this.terminal.store['metal'],'W29N4')
             }
-            else if(this.terminal.store['K']>10000){
-                this.terminal.send('K',this.terminal.store['K'],'W29N6')
+            else if(this.terminal.store['utrium_bar']>1000){
+                this.terminal.send('utrium_bar',this.terminal.store['utrium_bar'],'W29N5')
             }
-            else if(this.terminal.store['U']>10000){
-                this.terminal.send('U',this.terminal.store['U'],'W29N5')
+        }
+        if(this.name=='W29S5'){
+            if(this.terminal.store['metal']>1000){
+                this.terminal.send('metal',this.terminal.store['metal'],'W29N4')
+            }
+            else if(this.terminal.store['keanium_bar']>1000){
+                this.terminal.send('keanium_bar',this.terminal.store['utrium_bar'],'W29N5')
             }
         }
     },
@@ -569,10 +577,10 @@ const roomExtension = {
             var comlist=['fixtures','tissue','transistor','extract','wire','cell','alloy','condensate','crystal']
         }
         if(this.name=='W29N6'){
-            var comlist=['frame','muscle','microchip','spirit','wire','cell','alloy','condensate','liquid']
+            var comlist=['frame','muscle','spirit','microchip','wire','cell','alloy','condensate','liquid']
         }
         if(this.name=='W28N6'){
-            var comlist=['tube','phlegm','switch','concentrate','wire','cell','alloy','condensate','composite','reductant','oxidant']
+            var comlist=['tube','phlegm','switch','concentrate','wire','cell','alloy','condensate','reductant','oxidant','keanium_bar','lemergium_bar','utrium_bar','composite']
         }
         if(this.name == 'W29N4'){
             if(factory && factory.cooldown==0 && factory.store.getFreeCapacity()>5000){
@@ -722,6 +730,11 @@ const roomExtension = {
         else if(this.name == 'W31S9'){
             if(factory.store['U']>=500 && factory.store['energy']>200){
                 factory.produce('utrium_bar')
+            }
+        }
+        else if(this.name == 'W29S5'){
+            if(factory.store['K']>=500 && factory.store['energy']>200){
+                factory.produce('keanium_bar')
             }
         }
     },

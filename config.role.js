@@ -70,10 +70,7 @@ module.exports = {
     centertransporter4: centertransporter('W31S9'),
     centertransporter5: centertransporter('W29S5'),
 
-    claimer0: claimer('W31N6'),
-    claimer1: claimer('W31N4'),
-    claimer2: claimer('W28N5'),
-    claimer3: claimer('W29N7'),
+    claimer0: claimer('W39N9'),
 
     labman0: labman('W29N4'),
     labman1: labman('W29N6'),
@@ -127,6 +124,8 @@ module.exports = {
     scout0: scout(),
     longbuilder: longbuilder(),
     lorry0: lorry('flag'),
+    attacker0: attacker(),
+    dismantler0: dismantler(),
 
     'YoRHa-6o': pc('YoRHa-6o'),
     'YoRHa-4o': pc('YoRHa-4o'),

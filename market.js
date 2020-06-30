@@ -4,7 +4,7 @@ module.exports=function(){
         var order = Game.market.getAllOrders(order => 
             order.resourceType == RESOURCE_ENERGY && order.type == ORDER_BUY)
         order.sort((a,b)=>b.price-a.price)
-        var price = Math.min(0.19,order[0].price)
+        var price = Math.min(0.25,order[0].price)
         var deal=false
         if(_.size(Game.market.orders)>250){
             for(o in Game.market.orders){
@@ -55,7 +55,7 @@ module.exports=function(){
                 var order = Game.market.getAllOrders(order => 
                     order.resourceType == 'ops' && order.type == ORDER_BUY)
                 order.sort((a,b)=>b.price-a.price)
-                var opsprice = Math.min(2,order[0].price)
+                var opsprice = Math.min(10,order[0].price)
                 var order = _.filter(Game.market.orders, o => o.type=="buy" && o.resourceType=='ops' &&
                     o.roomName==roomName[i] && o.active==true)
                 if(order.length>0){
@@ -69,7 +69,7 @@ module.exports=function(){
                     }
                 }
                 else{
-                    buy('ops',price,15000-Game.rooms[roomName[i]].storage.store['ops'],roomName[i]-Game.rooms[roomName[i]].terminal.store['ops'])
+                    buy('ops',price,15000-Game.rooms[roomName[i]].storage.store['ops']-Game.rooms[roomName[i]].terminal.store['ops'],roomName[i])
                 }
             }
         }

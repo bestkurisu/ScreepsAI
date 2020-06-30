@@ -101,3 +101,21 @@ module.exports = (workRoom) => {
         }
     }
 };
+
+var scout0 = {
+
+    /** @param {Creep} creep **/
+    run: function(creep) {
+        if(Game.shard.name=='shard3'){
+            creep.moveTo(new RoomPosition(13,24,'W20N20'))
+        }
+        else if(Game.shard.name=='shard2'){
+            creep.moveTo(new RoomPosition(13,12,'W20N20'))
+        }
+        else if(Game.shard.name=='shard1'){
+            creep.moveTo(new RoomPosition(38,12,'W20N20'))
+        }
+    }
+};
+
+module.exports = scout0;

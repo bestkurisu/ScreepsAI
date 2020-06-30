@@ -48,7 +48,7 @@ module.exports = function(spawn) {
                 name: 'wallrepairer',
                 role: [0],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 0,
+                amount: 1,
                 add: ''
             },
         }
@@ -142,7 +142,7 @@ module.exports = function(spawn) {
                 name: 'wallrepairer',
                 role: [1],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 0,
+                amount: 1,
                 add: ''
             },
         }
@@ -203,7 +203,7 @@ module.exports = function(spawn) {
                 name: 'wallrepairer',
                 role: [2],
                 body: bodyConfigs.wallrepairer.body1,
-                amount: 0,
+                amount: 1,
                 add: ''
             },
             builder: {
@@ -387,7 +387,7 @@ module.exports = function(spawn) {
                 name: 'upgrader',
                 role: [5],
                 body: bodyConfigs.upgrader.body2,
-                amount: 1,
+                amount: 2,
                 add: '',
             },
             harvester: {
