@@ -106,6 +106,10 @@ module.exports = function (){
             if(ret)return new RoomPosition(ret.x,ret.y,ret.roomName)
             else return null;
         }
-        
+        Object.defineProperty(Structure.prototype,'memory',{
+            get(){
+                return this.room.memory.objects[this.id]=this.room.memory.objects[this.id] || {}
+            }
+        })
     }
 }

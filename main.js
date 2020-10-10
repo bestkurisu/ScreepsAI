@@ -139,7 +139,7 @@ module.exports.loop = function () {
             console.log(e.stack)
         }
     }
-    if(Game.shard.name=='shard3') stateScanner()
+    //if(Game.shard.name=='shard3') stateScanner()
     if(Game.shard.name=='shard3') var elapsed = Math.round(Game.cpu.getUsed() - startCpu0) 
     new RoomVisual('W29N4').text('bucket:'+Game.cpu.bucket, 5, 1, {color: 'green', font: 0.8})
     new RoomVisual('W29N4').text('cpu:'+elapsed, 5, 2, {color: 'green', font: 0.8})
