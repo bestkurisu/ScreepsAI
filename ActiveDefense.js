@@ -5,11 +5,7 @@
 */
 
 
-const checkInterval = 10; //搜索敌人间隔
-const costMatrixInterval = 50; //计算CostMatrix间隔
-const defenderNumber = 1;
-const builderNumber = 1;
-const needBoost = false;
+const checkInterval = 10; //搜索敌人间隔,10Tick检测一次
 
 var defense = {
     main: function (roomName) {
@@ -19,19 +15,19 @@ var defense = {
                 const check = this.check(room);//如果房间无敌对creep 则开始检测 0表示检测到了进入防守模式 1表示节省cpu时间中 2表示已经在防守模式了
                 this.tower(room);
                 if (check === 2) {//防守模式
-                    //room.visual.text('DEFENSE', 25, 25);
-                    if (!room.memory.defense.savedMatrix || Game.time % costMatrixInterval === 0) {
+                    room.visual.text('DEFENSE', 25, 25);
+                    if (!room.memory.defense.savedMatrix || Game.time % 50 === 0) {
                         this.make_defense_cost(room);
                     }
-                    this.spawn_Defender(room, defenderNumber, builderNumber);//0表示满员 1表示未满
-                }
+                    this.spawn_Defender(room, 1, 1);//0表示满员 1表示未满
+                } 
                 else {
                     room.visual.text('safe', room.controller.pos);
                     this.builder_run(room);
                     return;
                 }
                 this.atk_run(room);
-            }
+            } 
             catch (err) {
                 console.log(err); //有错误抛出时重置memory
                 room.memory.defense = {
@@ -60,9 +56,6 @@ var defense = {
                     room.memory.defense.hostile_Creeps.push(creep.id);//如果检测到有敌人则会添加进列表
                 }
             });
-            room.find(FIND_HOSTILE_POWERCREEPS).forEach(function (creep, index) {
-                room.memory.defense.hostile_Creeps.push(creep.id);
-            }
             if (room.memory.defense.hostile_Creeps.length > 0) {
                 return 0;
             }
@@ -77,9 +70,9 @@ var defense = {
         }
         return 2;
     },
-    spawn_Defender: function (room, defenderNumber, builderNumber) {
+    spawn_Defender: function (room, dNumber, bNumber) {
         const defend = room.memory.defense;
-        if (defend.Defender_creeps.atk.length >= defenderNumber && defend.Defender_creeps.builder.length >= builderNumber) {//人数不够才会执行
+        if (defend.Defender_creeps.atk.length >= dNumber && defend.Defender_creeps.builder.length >= bNumber) {//人数不够才会执行
             return 0;
         }
         for (const spawn of room.spawns) {
@@ -88,13 +81,13 @@ var defense = {
             }
             const name = this.name();
             if (room.memory.defense.Defender_creeps.atk.length < dNumber) {
-                if (spawn.spawnCreep(this.mb({ 'attack': 32, 'move': 16 }), name, { memory: { 'role': 'R_D', 'roomname': room.name, 'boost': needBoost } }) === 0) {
+                if (spawn.spawnCreep(this.mb({ 'attack': 32, 'move': 16 }), name, { memory: { 'role': 'R_D', 'roomname': room.name, 'boost': false } }) === 0) {
                     room.memory.defense.Defender_creeps.atk.push(name);
                     break;
                 }
             }
             if (room.memory.defense.Defender_creeps.builder.length < bNumber) {
-                if (spawn.spawnCreep(this.mb({ 'work': 16, 'carry': 16, 'move': 16 }), name, { memory: { 'role': 'R_B', 'roomname': room.name, 'boost': needBoost } }) === 0) {
+                if (spawn.spawnCreep(this.mb({ 'work': 16, 'carry': 16, 'move': 16 }), name, { memory: { 'role': 'R_B', 'roomname': room.name, 'boost': false } }) === 0) {
                     room.memory.defense.Defender_creeps.builder.push(name);
                     break;
                 }
@@ -147,12 +140,9 @@ var defense = {
                     if (creep.getActiveBodyparts('ranged_attack')) {
                         creep.rangedMassAttack();
                     }
-                }
-                else {
+                } else {
                     if (creep.pos.inRangeTo(H_creeps, 3)) {
-                        if (creep.getActiveBodyparts('ranged_attack')) {
-                            creep.rangedAttack(H_creeps);
-                        }
+                        creep.rangedAttack(H_creeps);
                     }
                     creep.moveTo(H_creeps, {
                         range: 1,
@@ -169,8 +159,7 @@ var defense = {
 
             if (this.find_target(creep) === 0) {
                 creep.say('ok');
-            }
-            else {
+            } else {
                 creep.say('noAttack');
             }
             continue; //如果有目标的话就执行
@@ -188,61 +177,21 @@ var defense = {
             }
             creep.room.visual.text(creep.memory.role, creep.pos);
             if (!creep.memory.getEnergy && creep.store.getUsedCapacity('energy') === 0) {
-                creep.memory.getEnergy = true;
+                creep.memory.getEnergy = true;//能量用完的时候
                 creep.memory.buildtarget = false;
                 continue;
             }
-            if(creep.memory.getEnergy && creep.store.getFreeCapacity() === 0){
-                creep.memory.getEnergy = false;
-                creep.memory.buildtarget = true;
-                continue;
-            }
             if (creep.memory.boost) {
-                var lab = creep.room.find(FIND_STRUCTURES,{
-                    filter: s => s.structureType === 'lab' &&
-                            s.store['XLH2O'] > 30
-                })
-                if(lab.length>0){
-                    if(creep.isNearTo(lab[0])){
-                        lab[0].boostCreep(creep)
-                        creep.memory.boost = false
-                    }
-                    else{
-                        creep.moveTo(lab[0],{range:1})
-                    }
-                }
-                else{
-                    creep.memory.boost = false
-                }
+                //boost
             }
-            if (creep.memory.getEnergy) {
-                let drop = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES,1,{
-                    filter: r => r.resourceType === 'energy'
-                })
-                if(drop){
-                    creep.pickup(drop)
-                    continue;
+            if (creep.memory.getEnergy) {//捡资源
+                if (creep.pos.isNearTo(room.terminal)) {
+                    creep.withdraw(room.terminal, 'energy');
+                    creep.memory.getEnergy = false;
+                } else {
+                    creep.moveTo(room.terminal, { range: 1 });
                 }
-                else if(room.terminal.store['energy']>5000){
-                    if (creep.pos.isNearTo(room.terminal)) {
-                        creep.withdraw(room.terminal, 'energy');
-                        creep.memory.getEnergy = false;
-                    }
-                    else {
-                        creep.moveTo(room.terminal, { range: 1 });
-                    }
-                    continue;
-                }
-                else if(room.storage.store['energy']>5000){
-                    if (creep.pos.isNearTo(room.storage)) {
-                        creep.withdraw(room.storage, 'energy');
-                        creep.memory.getEnergy = false;
-                    }
-                    else {
-                        creep.moveTo(room.storage, { range: 1 });
-                    }
-                    continue;
-                }
+                continue;
             }
             if (creep.memory.buildtarget) {
                 const target = Game.getObjectById(creep.memory.buildtarget);
@@ -272,14 +221,14 @@ var defense = {
         const target = room.spawns[0];
         let roomName = target.pos.roomName;
         var matrix = new PathFinder.CostMatrix;
-        makeTerrain(roomName);
-        checkPos({ 'x': target.pos.x, 'y': target.pos.y });
+        a(roomName);
+        b({ 'x': target.pos.x, 'y': target.pos.y });
         for (let i = 0; i < 100; i++) {
             let mark = 0;
             for (let y = 0; y < 50; y++) {
                 for (let x = 0; x < 50; x++) {
                     if (matrix.get(x, y) === 10) {
-                        mark = checkPos({ 'x': x, 'y': y }) + mark;
+                        mark = b({ 'x': x, 'y': y }) + mark;
                     }
                 }
             }
@@ -305,7 +254,7 @@ var defense = {
                 matrix.set(item.pos.x, item.pos.y, 255);
             }
         });
-        function makeTerrain(roomName) {
+        function a(roomName) {
             const terrain = new Room.Terrain(roomName);
             const room = Game.rooms[roomName];
             for (let y = 0; y < 50; y++) {
@@ -327,7 +276,7 @@ var defense = {
             }
             return matrix;
         }
-        function checkPos(pos) {
+        function b(pos) {
             let mark = 0;
             let x = pos.x;
             let y = pos.y;
