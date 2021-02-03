@@ -9,55 +9,6 @@ require('prototype.Room.structures')
 for(let room in Game.rooms){
     Game.rooms[room].update();  // 在第一次见到某房间或某房间中出现新建筑时调用room.update()函数更新缓存
 }
-const stateScanner = function () {
-    if (Game.time % 19) return 
-    if (!Memory.stats) Memory.stats = {}
-    Memory.stats.gcl = (Game.gcl.progress / Game.gcl.progressTotal) * 100
-    Memory.stats.gclLevel = Game.gcl.level
-    Memory.stats.gpl = (Game.gpl.progress / Game.gpl.progressTotal) * 100
-    Memory.stats.gplLevel = Game.gpl.level
-    Memory.stats.credits = Game.market.credits
-    Memory.stats.cpu = Game.cpu.getUsed()
-    Memory.stats.bucket = Game.cpu.bucket
-    var getBar = function(barName,roomName){
-        return Game.rooms[roomName].storage.store[barName]+Game.rooms[roomName].terminal.store[barName]
-    }
-    Memory.stats.bar={
-        Zbar: getBar('zynthium_bar','W29N5'),
-        Kbar: getBar('keanium_bar','W29N5'),
-        Ubar: getBar('utrium_bar','W29N5'),
-        Lbar: getBar('lemergium_bar','W29N5'),
-        Obar: getBar('oxidant','W29N5'),
-        Hbar: getBar('reductant','W29N5'),
-        Xbar: getBar('purifier','W29N5'),
-    }
-    var getstore = function(roomName){
-        var sto = {
-            free: Game.rooms[roomName].storage.store.getCapacity()-Game.rooms[roomName].storage.store.getUsedCapacity(),
-            energy: Game.rooms[roomName].storage.store['energy'],
-            power: Game.rooms[roomName].storage.store['power'],
-        }
-        return sto
-    }
-    var rcl = function(roomName){
-        var r = {
-            level: Game.rooms[roomName].controller.level,
-            progress: (Game.rooms[roomName].controller.progress / Game.rooms[roomName].controller.progressTotal) * 100
-        }
-        return r
-    }
-    Memory.stats.storage = {
-        W29N4: getstore('W29N4',1),
-        W29N5: getstore('W29N5',1),
-        W29N6: getstore('W29N6',1),
-        W28N6: getstore('W28N6',1)
-    }
-    Memory.stats.rcl = {
-        W29S5: rcl('W29S5'),
-        W31S9: rcl('W31S9'),
-        W28N6: rcl('W28N6'),
-    }
-}
 module.exports.loop = function () {
     if(Game.cpu.bucket>8000){
         Game.cpu.generatePixel()
@@ -89,12 +40,7 @@ module.exports.loop = function () {
     for(var name in Game.rooms){
         if(Game.shard.name=='shard3'){
             try{
-                var cpu0 = Game.cpu.getUsed()
                 Game.rooms[name].work()
-                var cpu = Game.cpu.getUsed()-cpu0
-                if(Game.time%5==0){
-                    //console.log(name+' used '+cpu)
-                }
             }
             catch(e){
                 console.log(e.stack)
@@ -130,6 +76,7 @@ module.exports.loop = function () {
             console.log(e.stack)
         }
     }
+<<<<<<< Updated upstream
     var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
     for(let tower of towers){
         try{
@@ -143,4 +90,6 @@ module.exports.loop = function () {
     if(Game.shard.name=='shard3') var elapsed = Math.round(Game.cpu.getUsed() - startCpu0) 
     new RoomVisual('W29N4').text('bucket:'+Game.cpu.bucket, 5, 1, {color: 'green', font: 0.8})
     new RoomVisual('W29N4').text('cpu:'+elapsed, 5, 2, {color: 'green', font: 0.8})
+=======
+>>>>>>> Stashed changes
 }
